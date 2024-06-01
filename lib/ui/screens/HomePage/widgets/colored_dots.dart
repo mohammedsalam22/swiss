@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ColoredDotsList extends StatefulWidget {
-
   const ColoredDotsList({super.key});
 
   @override
@@ -10,11 +9,9 @@ class ColoredDotsList extends StatefulWidget {
 
 class _ColoredDotsListState extends State<ColoredDotsList> {
   final List<ColorInfo> colorList = [
-    ColorInfo(color: Colors.purple, name: 'purple'),
-    ColorInfo(color: Colors.blue, name: 'Blue'),
-    ColorInfo(color: Colors.deepPurple, name: 'navy'),
-    ColorInfo(color: Colors.yellow, name: 'Yellow'),
-
+    ColorInfo(color: Colors.purple, name: 'Exports'),
+    ColorInfo(color: Colors.deepPurple, name: 'Imports'),
+    ColorInfo(color: Colors.blue, name: 'Material'),
   ];
 
   @override
@@ -26,7 +23,6 @@ class _ColoredDotsListState extends State<ColoredDotsList> {
           itemCount: colorList.length,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-
             final colorInfo = colorList[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -36,7 +32,7 @@ class _ColoredDotsListState extends State<ColoredDotsList> {
                   const SizedBox(width: 8),
                   Text(
                     colorInfo.name,
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ],
               ),

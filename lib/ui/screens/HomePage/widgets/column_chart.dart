@@ -21,6 +21,8 @@ class _ColumnChartState extends State<ColumnChart> {
       _ChartData('RUS', 30),
       _ChartData('BRZ', 6.4),
       _ChartData('IND', 14),
+      _ChartData('SYR', 20),
+      _ChartData('UNS', 50),
     ];
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
@@ -36,27 +38,38 @@ class _ColumnChartState extends State<ColumnChart> {
       ),
       primaryYAxis: const NumericAxis(minimum: 0, maximum: 70, interval: 10),
       tooltipBehavior: _tooltip,
-      series: <CartesianSeries<_ChartData, String>>[
-        ColumnSeries<_ChartData, String>(
-            dataSource: data,
-            xValueMapper: (_ChartData data, _) => data.x,
-            yValueMapper: (_ChartData data, _) => data.y,
-            name: 'Gold',
-            color: Colors.red,
-            borderColor: Colors.white,
-            // Border color
-            borderWidth: 1,
-            // Border width
-            borderRadius: BorderRadius.circular(10),
-            // Corner radius
-            // Customizing data labels (optional)
-            dataLabelSettings: const DataLabelSettings(
-              isVisible: true,
-              labelAlignment: ChartDataLabelAlignment.outer,
-              textStyle: TextStyle(fontSize: 12, color: Colors.black),
-            ))
-      ],
+      series: _columnseries(),
     );
+  }
+
+  List<CartesianSeries<_ChartData, String>> _columnseries() {
+    return <CartesianSeries<_ChartData, String>>[
+      ColumnSeries<_ChartData, String>(
+          trackColor: Colors.red,
+          trackBorderColor: Colors.red,
+          dataSource: data,
+          xValueMapper: (_ChartData data, _) => data.x,
+          yValueMapper: (_ChartData data, _) => data.y,
+          name: 'Gold',
+          gradient: LinearGradient(colors: [
+            Colors.red,
+            Colors.red.shade300,
+            Colors.white,
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+          color: Colors.black,
+          borderColor: Colors.red,
+          // Border color
+          borderWidth: 0,
+          // Border width
+          borderRadius: BorderRadius.circular(0),
+          // Corner radius
+          // Customizing data labels (optional)
+          dataLabelSettings: const DataLabelSettings(
+            isVisible: true,
+            labelAlignment: ChartDataLabelAlignment.outer,
+            textStyle: TextStyle(fontSize: 12, color: Colors.black),
+          ))
+    ];
   }
 }
 
