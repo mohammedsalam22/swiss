@@ -87,7 +87,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     return GNav(
       onTabChange: _selectedPageIndex,
       gap: 5,
-      padding: const EdgeInsets.all(15),
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.024),
       backgroundColor: Colors.white,
       color: Colors.red,
       activeColor: Colors.white,

@@ -76,7 +76,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 TextfromField(
                   left: 19,
                   right: 19,
-                  top: 15,
                   bottom: 10,
                   labelText: 'Enter your email/phone',
                   hintText: '',

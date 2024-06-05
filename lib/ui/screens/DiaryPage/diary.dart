@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swis_warehouse/ui/screens/DiaryPage/qr_page.dart';
 import 'package:swis_warehouse/ui/screens/DiaryPage/request_warrant.dart';
 
 class diary extends StatefulWidget {
@@ -25,9 +26,8 @@ class _diaryState extends State<diary> {
     return Expanded(
       child: TabBarView(children: [
         const RequestWarrant(),
-        Container(
-          color: Colors.white,
-        ),
+        QrPage(),
+
       ]),
     );
   }
@@ -35,27 +35,28 @@ class _diaryState extends State<diary> {
   Container _tabBarContainer() {
     return Container(
       decoration: const BoxDecoration(
-          color: Colors.red,
+          color: Colors.white,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5))),
       width: double.infinity,
       child: const Column(
         children: [
           TabBar(
+
             padding: EdgeInsets.symmetric(horizontal: 10),
-            indicatorColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.label,
+            indicatorColor: Colors.red,
+            indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
                 child: Text(
                   'Send',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.blueGrey),
                 ),
               ),
               Tab(
                 child: Text(
                   'Receive',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.blueGrey),
                 ),
               ),
             ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:swis_warehouse/ui/screens/About%20us/about_us.dart';
+import 'package:swis_warehouse/ui/screens/About%20us/terms.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/home_view.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/navigation_menu.dart';
 import 'package:swis_warehouse/ui/screens/LoginPages/forget_password.dart';
@@ -19,6 +21,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const HomeView());
       case forget_password:
         return MaterialPageRoute(builder: (_) => const ForgetPassword());
+      case aboutUs:
+        return MaterialPageRoute(builder: (_) => const AboutUsScreen());
+      case terms:
+        return MaterialPageRoute(builder: (_) => const TermsAndConditionsScreen());
     }
     return null;
   }

@@ -18,14 +18,14 @@ class _ColoredDotsListState extends State<ColoredDotsList> {
   Widget build(BuildContext context) {
     return Expanded(
       child: SizedBox(
-        height: 200,
+        height: MediaQuery.of(context).size.height *0.25,
         child: ListView.builder(
           itemCount: colorList.length,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             final colorInfo = colorList[index];
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   ColoredDot(color: colorInfo.color),
@@ -52,8 +52,8 @@ class ColoredDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 15,
-      height: 15,
+      width: MediaQuery.of(context).size.width * 0.04,
+      height: MediaQuery.of(context).size.height * 0.04,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: color,

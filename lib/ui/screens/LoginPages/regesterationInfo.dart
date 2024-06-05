@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swis_warehouse/constant_stuff/routes_name.dart';
 import 'package:swis_warehouse/ui/public_widgets/Customshapes/ShapeCircularacontainer.dart';
 import 'package:swis_warehouse/ui/public_widgets/Customshapes/curved_edges.dart';
 import 'package:swis_warehouse/ui/public_widgets/ElevatedButton.dart';
 import 'package:swis_warehouse/ui/public_widgets/textFormField.dart';
-
 
 class RegistrationInfo extends StatefulWidget {
   const RegistrationInfo({super.key});
@@ -19,12 +19,14 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
             color: Colors.white,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+            width: width,
+            height: height,
             child: Column(
               children: [
                 ClipPath(
@@ -32,53 +34,54 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                   child: Column(
                     children: [
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
                         color: Colors.red,
                         padding: const EdgeInsets.all(0),
-                        child: const SizedBox(
-                          height: 290,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                  top: -220,
-                                  left: 300,
-                                  child: ShapeCircularacontainer()),
-                              Positioned(
-                                  top: 80,
-                                  left: 300,
-                                  child: ShapeCircularacontainer()),
-                              Positioned(
-                                  top: 85,
-                                  right: 165,
-                                  child: Text(
-                                    'Registration',
-                                    style: TextStyle(
-                                        fontSize: 40,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700),
-                                  )),
-                              Positioned(
-                                  top: 145,
-                                  right: 90,
-                                  child: Text(
-                                    'only one step to get to your account',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white54),
-                                  ))
-                            ],
-                          ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                                top: MediaQuery.viewInsetsOf(context).top -
+                                    height * 0.2,
+                                left: MediaQuery.viewInsetsOf(context).left +
+                                    width * 0.7,
+                                child: const ShapeCircularacontainer()),
+                            Positioned(
+                                top: MediaQuery.viewInsetsOf(context).top + 100,
+                                left: MediaQuery.viewInsetsOf(context).left +
+                                    width * 0.7,
+                                child: const ShapeCircularacontainer()),
+                            Positioned(
+                                top: MediaQuery.viewInsetsOf(context).top +
+                                    height * 0.1,
+                                right: MediaQuery.viewInsetsOf(context).right +
+                                    width * 0.4,
+                                child: const Text(
+                                  'Registration',
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700),
+                                )),
+                            Positioned(
+                                top: MediaQuery.viewInsetsOf(context).top +
+                                    height * 0.16,
+                                right: MediaQuery.viewInsetsOf(context).right +
+                                    width * 0.22,
+                                child: const Text(
+                                  'only one step to get to your account',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white54),
+                                ))
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
                 TextfromField(
-                  left: 19,
-                  right: 19,
-                  top: 15,
-                  bottom: 10,
+                  left: width * 0.05,
+                  right: width * 0.05,
+                  bottom: 0,
                   labelText: 'UserName',
                   hintText: 'Enter your name',
                   suffixIcon: null,
@@ -94,9 +97,8 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                   },
                 ),
                 TextfromField(
-                  left: 19,
-                  right: 19,
-                  top: 15,
+                  left: width * 0.05,
+                  right: width * 0.05,
                   bottom: 0,
                   labelText: 'Code',
                   hintText: 'Enter Your Code',
@@ -121,10 +123,9 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                   },
                 ),
                 TextfromField(
-                  left: 19,
-                  right: 19,
-                  top: 15,
-                  bottom: 10,
+                  left: width * 0.05,
+                  right: width * 0.05,
+                  bottom: MediaQuery.viewInsetsOf(context).bottom + 25,
                   labelText: 'Position ',
                   hintText: 'Enter your position',
                   suffixIcon: null,
@@ -139,9 +140,9 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                     return null;
                   },
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-                  child: Elevatedbutton(
+                 Padding(
+                  padding: EdgeInsets.only(left: width *0.18, right: width*0.18),
+                  child: const Elevatedbutton(
                     RouteName: navbar,
                     ButtonName: 'Get Started',
                   ),

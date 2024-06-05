@@ -41,6 +41,13 @@ dependencies:
   google_nav_bar:
   syncfusion_flutter_charts:
   fl_chart:
+  qr_flutter:
+  qr_code_scanner:
+  qr_image:
+  pretty_qr_code:
+  http:
+  flutter_secure_storage:
+  equatable: 
 
 
 dev_dependencies:

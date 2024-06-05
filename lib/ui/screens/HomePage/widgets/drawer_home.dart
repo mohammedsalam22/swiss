@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:swis_warehouse/constant_stuff/routes_name.dart';
+import 'package:swis_warehouse/ui/screens/About%20us/about_us.dart';
 
 class DrawerHome extends StatelessWidget {
   const DrawerHome({super.key});
@@ -47,14 +49,27 @@ class DrawerHome extends StatelessWidget {
             leading: Icon(Icons.notifications),
             title: Text('notifications'),
           ),
-          const Divider(),
-          const ListTile(
-            leading: Icon(Icons.share),
-            title: Text('share app'),
+          InkWell(
+            onTap: (){Navigator.pushNamed(context, aboutUs);},
+            child: const ListTile(
+              leading: Icon(Icons.info_outline),
+              title: Text('about us'),
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('logout'),
+          InkWell(
+            onTap: (){Navigator.pushNamed(context, terms);},
+            child: const ListTile(
+              leading: Icon(Icons.rule_sharp),
+              title: Text('terms&conditions '),
+            ),
+          ),
+          Divider(),
+          InkWell(
+            onTap:(){Navigator.pushReplacementNamed(context, loginScreen);},
+            child: const ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('logout'),
+            ),
           ),
         ],
       ),

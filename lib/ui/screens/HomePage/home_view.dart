@@ -4,40 +4,39 @@ import 'package:swis_warehouse/ui/screens/HomePage/widgets/colored_dots.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/column_chart.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/circular_chart.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/drawer_home.dart';
-import 'package:swis_warehouse/ui/screens/HomePage/widgets/search_widget.dart';
-
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
-
   @override
   State<HomeView> createState() => _HomeViewState();
 }
-
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         drawer: const DrawerHome(),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+            width: width,
+            height: height,
             child: Column(children: [
               const SizedBox(
                 height: 15,
               ),
-              _circularchartContainer(),
-              _columnchartCountainer()
+              _circularchartContainer(width,height),
+              _columnchartCountainer(width,height)
             ]),
           ),
         ));
   }
-  Row _circularchartContainer() {
+  Row _circularchartContainer(double width, double height) {
     return Row(
       children: [
-        SizedBox(
-            width: 300,
+        Container(
+          height: height * 0.38,
+            width: width *0.72,
             child: CircularChart(
               data: [
                 chartdata(value: 10, name: 'material'),
@@ -50,9 +49,10 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Container _columnchartCountainer() {
+  Container _columnchartCountainer(double width, double height) {
     return Container(
-        padding: const EdgeInsets.only(left: 18, right: 18),
+      height: height *0.4,
+        padding: EdgeInsets.only(left: width*0.02 , right: width*0.02),
         color: Colors.white,
         child: const ColumnChart());
   }

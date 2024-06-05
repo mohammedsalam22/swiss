@@ -37,32 +37,7 @@ class _DetailsState extends State<Details> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.red,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  const SizedBox(
-                    width: 85,
-                  ),
-                  const Center(
-                    child: Text(
-                      'Details Page',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ],
-              ),
+              child: textRow(context),
             ),
             _logo(context),
             const SizedBox(
@@ -73,75 +48,7 @@ class _DetailsState extends State<Details> {
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Com. Name',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Open_Sans',
-                            color: Colors.grey,
-                          )),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(widget.productname,
-                          style: const TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'Open_Sans',
-                              color: Colors.black87))
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Company',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Open_Sans',
-                              color: Colors.grey)),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        widget.manufacturer,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            // fontWeight: FontWeight.w500,
-                            fontFamily: 'Open_Sans',
-                            // color: Color.fromRGBO(0, 186, 175, 1)
-                            color: Colors.black87),
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Sci. Name',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Open_Sans',
-                              color: Colors.grey)),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(widget.scientific_name,
-                          style: const TextStyle(
-                              fontSize: 18,
-                              // fontWeight: FontWeight.w500,
-                              // color: Color.fromRGBO(0, 186, 175, 1)
-                              color: Colors.black87))
-                    ],
-                  ),
-                ],
-              ),
+              child: firstRow(),
             ),
             const SizedBox(
               height: 12,
@@ -151,55 +58,7 @@ class _DetailsState extends State<Details> {
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Expired Date',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Open_Sans',
-                            color: Colors.grey,
-                          )),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(widget.date,
-                          style: const TextStyle(
-                              fontSize: 18,
-                              // fontWeight: FontWeight.w500,
-                              fontFamily: 'Open_Sans',
-                              // color: Color.fromRGBO(0, 186, 175, 1)
-                              color: Colors.black87))
-                    ],
-                  ),
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Medicine Type',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Open_Sans',
-                              color: Colors.grey)),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Pain reliever',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Open_Sans',
-                            color: Colors.black87),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+              child: secondRow(),
             ),
             const SizedBox(
               height: 5,
@@ -209,64 +68,10 @@ class _DetailsState extends State<Details> {
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Price',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Open_Sans',
-                            color: Colors.grey,
-                          )),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(widget.price.toString(),
-                          style: const TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'Open_Sans',
-                              color: Colors.black87))
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Amount ',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Open_Sans',
-                              color: Colors.grey)),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        widget.quantity.toString(),
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Open_Sans',
-                            color: Colors.black87),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+              child: thirdRow(),
             ),
             const SizedBox(
               height: 5,
-            ),
-            Container(
-              // padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-              width: MediaQuery.of(context).size.width / 1.5,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -278,18 +83,14 @@ class _DetailsState extends State<Details> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Column(
-                    children: [
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite,
-                            size: 28,
-                            // color: theme.primaryColor,
-                            color: Colors.white,
-                          )),
-                    ],
-                  ),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.favorite,
+                        size: 28,
+                        // color: theme.primaryColor,
+                        color: Colors.white,
+                      )),
                 ],
               ),
             ),
@@ -297,6 +98,209 @@ class _DetailsState extends State<Details> {
         ),
       ),
     ));
+  }
+
+  Row thirdRow() {
+    return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Price',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Open_Sans',
+                          color: Colors.grey,
+                        )),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(widget.price.toString(),
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Open_Sans',
+                            color: Colors.black87))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Amount ',
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Open_Sans',
+                            color: Colors.grey)),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      widget.quantity.toString(),
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Open_Sans',
+                          color: Colors.black87),
+                    )
+                  ],
+                ),
+              ],
+            );
+  }
+
+  Row secondRow() {
+    return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Expired Date',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Open_Sans',
+                          color: Colors.grey,
+                        )),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(widget.date,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            // fontWeight: FontWeight.w500,
+                            fontFamily: 'Open_Sans',
+                            // color: Color.fromRGBO(0, 186, 175, 1)
+                            color: Colors.black87))
+                  ],
+                ),
+                const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Medicine Type',
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Open_Sans',
+                            color: Colors.grey)),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      'Pain reliever',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Open_Sans',
+                          color: Colors.black87),
+                    )
+                  ],
+                ),
+              ],
+            );
+  }
+
+  Row firstRow() {
+    return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Com. Name',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Open_Sans',
+                          color: Colors.grey,
+                        )),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(widget.productname,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Open_Sans',
+                            color: Colors.black87))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Company',
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Open_Sans',
+                            color: Colors.grey)),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      widget.manufacturer,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          // fontWeight: FontWeight.w500,
+                          fontFamily: 'Open_Sans',
+                          // color: Color.fromRGBO(0, 186, 175, 1)
+                          color: Colors.black87),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Sci. Name',
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Open_Sans',
+                            color: Colors.grey)),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(widget.scientific_name,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            // fontWeight: FontWeight.w500,
+                            // color: Color.fromRGBO(0, 186, 175, 1)
+                            color: Colors.black87))
+                  ],
+                ),
+              ],
+            );
+  }
+
+  Row textRow(BuildContext context) {
+    return Row(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.red,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(
+                  width: 85,
+                ),
+                const Center(
+                  child: Text(
+                    'Details Page',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            );
   }
 
   Padding _logo(BuildContext context) {

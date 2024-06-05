@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:swis_warehouse/constant_stuff/routes_name.dart';
 import 'package:swis_warehouse/ui/public_widgets/ElevatedButton.dart';
 import 'package:swis_warehouse/ui/public_widgets/textFormField.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   bool trueObscure = true;
   bool falseObscure = false;
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   Container _loginContainer(BuildContext context) {
     return Container(
         color: Colors.white,
@@ -37,8 +32,8 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             Image.asset('assets/logo.png'),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.07,
             ),
             _emailTextField(),
             _passwordTextField(),
@@ -56,9 +51,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-              child: Elevatedbutton(
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width *0.22,
+                  right: MediaQuery.of(context).size.width *0.22,
+                  bottom: MediaQuery.viewInsetsOf(context).bottom + 10),
+              child: const Elevatedbutton(
                 RouteName: registeration,
                 ButtonName: 'LogIn',
               ),
@@ -66,13 +64,11 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ));
   }
-
   TextfromField _passwordTextField() {
     return TextfromField(
-      left: 19,
-      right: 19,
-      top: 15,
-      bottom: 15,
+      left: MediaQuery.of(context).size.width * 0.04,
+      right: MediaQuery.of(context).size.width * 0.04,
+      bottom: MediaQuery.viewInsetsOf(context).bottom + 15,
       labelText: 'Password',
       hintText: 'Enter Your Password',
       suffixIcon: IconButton(
@@ -96,13 +92,11 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
-
   TextfromField _emailTextField() {
     return TextfromField(
-      left: 19,
-      right: 19,
-      top: 15,
-      bottom: 10,
+      left: MediaQuery.of(context).size.width * 0.04,
+      right: MediaQuery.of(context).size.width * 0.04,
+      bottom: MediaQuery.viewInsetsOf(context).bottom,
       labelText: 'Email',
       hintText: 'Enter your email',
       suffixIcon: null,
