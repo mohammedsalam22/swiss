@@ -47,7 +47,11 @@ dependencies:
   pretty_qr_code:
   http:
   flutter_secure_storage:
-  equatable: 
+  equatable:
+  font_awesome_flutter:
+  line_awesome_flutter:
+  eva_icons_flutter:
+  ionicons:
 
 
 dev_dependencies:

@@ -25,7 +25,14 @@ class _HomeViewState extends State<HomeView> {
               const SizedBox(
                 height: 15,
               ),
-              _circularchartContainer(width,height),
+
+              Container(
+                decoration:  const BoxDecoration(
+                  color: Colors.white10,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
+
+                ),
+                  child: _circularchartContainer(width,height)),
               _columnchartCountainer(width,height)
             ]),
           ),
@@ -39,9 +46,10 @@ class _HomeViewState extends State<HomeView> {
             width: width *0.72,
             child: CircularChart(
               data: [
-                chartdata(value: 10, name: 'material'),
-                chartdata(value: 25, name: 'exports'),
-                chartdata(value: 37, name: 'imports'),
+                chartdata(value: 10, name: 'material', color: Colors.black54),
+
+                chartdata(value: 20, name: 'exports',color:Colors.black38),
+                chartdata(value: 20, name: 'imports',color:Colors.red.shade400),
               ],
             )),
         const ColoredDotsList(),
@@ -52,8 +60,8 @@ class _HomeViewState extends State<HomeView> {
   Container _columnchartCountainer(double width, double height) {
     return Container(
       height: height *0.4,
-        padding: EdgeInsets.only(left: width*0.02 , right: width*0.02),
-        color: Colors.white,
+        padding: EdgeInsets.only(left: width*0.04  , right: width*0.04),
+        color: Colors.white10,
         child: const ColumnChart());
   }
 

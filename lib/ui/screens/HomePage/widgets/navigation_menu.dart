@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:swis_warehouse/ui/screens/DiaryPage/diary.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/home_view.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/drawer_home.dart';
@@ -36,7 +38,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   Container _navBarContainer() {
     return Container(
-      decoration: const BoxDecoration(
+      decoration:  const BoxDecoration(
+
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(1),
@@ -58,8 +61,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
             Scaffold.of(context).openDrawer();
           },
           icon: const Icon(
-            Icons.menu,
-            color: Colors.grey,
+            Ionicons.menu_outline,
+            color: Colors.brown ,
           ),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         );
@@ -70,14 +73,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
               showSearch(context: context, delegate: CustomSearch());
             },
             icon: const Icon(
-              Icons.search,
-              color: Colors.grey,
+              Ionicons.search,
+              color: Colors.brown,
             )),
         IconButton(
             onPressed: () {},
             icon: const Icon(
-              Icons.account_circle,
-              color: Colors.grey,
+              Ionicons.person,
+              color: Colors.brown,
             )),
       ],
     );
@@ -85,13 +88,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   GNav _navbar() {
     return GNav(
+
       onTabChange: _selectedPageIndex,
       gap: 5,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.024),
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.028),
       backgroundColor: Colors.white,
-      color: Colors.red,
-      activeColor: Colors.white,
-      tabBackgroundColor: Colors.red,
+      color: Colors.brown,
+      activeColor: Colors.brown ,
+      tabBackgroundColor: Colors.black12,
       tabs: const [
         GButton(
           icon: Icons.home,

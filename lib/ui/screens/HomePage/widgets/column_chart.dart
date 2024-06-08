@@ -31,8 +31,8 @@ class _ColumnChartState extends State<ColumnChart> {
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
-      plotAreaBorderColor: Colors.red,
-      borderColor: Colors.red,
+      plotAreaBorderColor: Colors.black54,
+      borderColor: Colors.black54,
       primaryXAxis: const CategoryAxis(
         maximum: 8,
       ),
@@ -45,19 +45,19 @@ class _ColumnChartState extends State<ColumnChart> {
   List<CartesianSeries<_ChartData, String>> _columnseries() {
     return <CartesianSeries<_ChartData, String>>[
       ColumnSeries<_ChartData, String>(
-          trackColor: Colors.red,
-          trackBorderColor: Colors.red,
+          trackColor: Colors.grey,
+          trackBorderColor: Colors.grey,
           dataSource: data,
           xValueMapper: (_ChartData data, _) => data.x,
           yValueMapper: (_ChartData data, _) => data.y,
           name: 'Gold',
           gradient: LinearGradient(colors: [
-            Colors.red,
             Colors.red.shade300,
-            Colors.white,
+            Colors.red,
+            Colors.red,
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           color: Colors.black,
-          borderColor: Colors.red,
+          borderColor: Colors.black54,
           // Border color
           borderWidth: 0,
           // Border width

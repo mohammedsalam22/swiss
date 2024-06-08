@@ -9,9 +9,9 @@ class ColoredDotsList extends StatefulWidget {
 
 class _ColoredDotsListState extends State<ColoredDotsList> {
   final List<ColorInfo> colorList = [
-    ColorInfo(color: Colors.purple, name: 'Exports'),
-    ColorInfo(color: Colors.deepPurple, name: 'Imports'),
-    ColorInfo(color: Colors.blue, name: 'Material'),
+    ColorInfo(color: Colors.red.shade400, name: 'Exports'),
+    ColorInfo(color: Colors.black38, name: 'Imports'),
+    ColorInfo(color: Colors.black54, name: 'Material'),
   ];
 
   @override
