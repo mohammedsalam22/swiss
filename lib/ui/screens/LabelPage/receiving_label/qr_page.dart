@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:swis_warehouse/ui/screens/DiaryPage/recieve_warrent.dart';
+import 'package:swis_warehouse/ui/screens/LabelPage/receiving_label/reading_qr.dart';
 
 class QrPage extends StatefulWidget {
   const QrPage({super.key});
@@ -53,15 +53,7 @@ class _QrPageState extends State<QrPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ReciveWarrent(
-                            id: 0,
-                            scientific_name: 'sam',
-                            productname: 'as',
-                            manufacturer: 'da',
-                            date: 'sf',
-                            price: 'dsa',
-                            quantity: 1,
-                          )
+                      builder: (context) => const ReceivingWarrantScreen()
                       //     QRViewExample(
                       //   onQRViewCreated: _onQRViewCreated,
                       // ),

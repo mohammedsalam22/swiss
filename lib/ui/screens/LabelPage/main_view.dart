@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swis_warehouse/ui/screens/DiaryPage/qr_page.dart';
-import 'package:swis_warehouse/ui/screens/DiaryPage/request_warrant.dart';
+import 'package:swis_warehouse/ui/screens/LabelPage/receiving_label/qr_page.dart';
+import 'package:swis_warehouse/ui/screens/LabelPage/sending_label/view.dart';
 
 class diary extends StatefulWidget {
   const diary({super.key});
@@ -23,9 +23,9 @@ class _diaryState extends State<diary> {
   }
 
   Expanded _tabBarViewer() {
-    return Expanded(
+    return const Expanded(
       child: TabBarView(children: [
-        const RequestWarrant(),
+        RequestWarrant(),
         QrPage(),
 
       ]),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:swis_warehouse/ui/screens/About%20us/about_us.dart';
 import 'package:swis_warehouse/ui/screens/About%20us/terms.dart';
+import 'package:swis_warehouse/ui/screens/ForgetPassword/forget_password.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/home_view.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/navigation_menu.dart';
-import 'package:swis_warehouse/ui/screens/LoginPages/forget_password.dart';
 import 'package:swis_warehouse/ui/screens/LoginPages/loginPage.dart';
 import 'package:swis_warehouse/ui/screens/LoginPages/regesterationInfo.dart';
 import 'constant_stuff/routes_name.dart';
