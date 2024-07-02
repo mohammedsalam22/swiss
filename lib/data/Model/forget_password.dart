@@ -1,4 +1,3 @@
-import 'package:swis_warehouse/ui/screens/LoginPages/forget_password.dart';
 
 class ForgetPasswordModel {
   String email;

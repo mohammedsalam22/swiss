@@ -6,17 +6,15 @@ class LoginApi {
   static String? message;
 
  static Future loginAuth(String email, String password) async {
-    message = '';
     try {
       var response = await http.post(
-        Uri.parse('$url/login'),
+        Uri.parse('$url/api/login'),
         headers: {
-          'Accept': 'application/json',
+          'Accept': 'application/json' ,
         },
         body: {
           'email': email,
-          'password': password,
-          "type": "user",
+          'password': password
         },
       );
       print(response.body);
@@ -28,6 +26,7 @@ class LoginApi {
         if (response.body.isEmpty) {
           throw Exception('empty');
         }
+        print('siiiiiii');
         return response.body;
       }
     } catch (error) {

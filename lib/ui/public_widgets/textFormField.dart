@@ -12,7 +12,8 @@ class TextfromField extends StatelessWidget {
       required this.keyboardType,
       required this.obscureText,
       required this.typeoffield,
-      required this.validator});
+      required this.validator,
+      required this.controller});
 
   final double left;
   final double right;
@@ -23,6 +24,7 @@ class TextfromField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final String typeoffield;
+  final TextEditingController controller;
 
   final String? Function(String?) validator;
 
@@ -44,6 +46,7 @@ class TextfromField extends StatelessWidget {
               fontSize: 18,
             ),
             suffixIcon: suffixIcon),
+        controller: controller,
         validator: validator,
         style: const TextStyle(
           color: Colors.black,

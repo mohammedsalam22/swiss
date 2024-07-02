@@ -161,7 +161,7 @@ class _ReceivingWarrantScreenState extends State<ReceivingWarrantScreen> {
 
   Container buildImage(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 100, right: 100),
+      padding: const EdgeInsets.only(left: 100, right: 100),
       height: 200,
       width: MediaQuery.of(context).size.width,
       child: ClipOval(

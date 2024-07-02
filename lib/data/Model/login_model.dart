@@ -1,16 +1,16 @@
 class LoginModel {
   String email;
-  String name;
+  String password;
   String token;
 
-  LoginModel({required this.email, required this.name, required this.token});
+  LoginModel({required this.email, required this.password, required this.token});
 
-  factory LoginModel.initial() => LoginModel(email: '', name: '', token: '');
+  factory LoginModel.initial() => LoginModel(email: '', password: '', token: '');
 
   factory LoginModel.fromJson(Map<String, dynamic> json) {
     return LoginModel(
       email: json["email"] ?? '',
-      name: json["name"] ?? '',
+      password: json["password"] ?? '',
       token: json["token"] ?? '',
     );
   }
@@ -18,7 +18,7 @@ class LoginModel {
   Map<String, dynamic> toJson() {
     return {
       "email": email,
-      "name": name,
+      "password": password,
       "token": token,
     };
   }

@@ -14,8 +14,11 @@ class RegistrationInfo extends StatefulWidget {
 }
 
 class _RegistrationInfoState extends State<RegistrationInfo> {
-  bool e = true;
-  bool t = false;
+  bool trueObscure = true;
+  bool falseObscure = false;
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +97,7 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                       return 'invalid phone number';
                     }
                     return null;
-                  },
+                  }, controller: emailController,
                 ),
                 TextfromField(
                   left: width * 0.05,
@@ -104,23 +107,23 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                   hintText: 'Enter Your Code',
                   suffixIcon: IconButton(
                     icon: (Icon(
-                      e ? Icons.visibility : Icons.visibility_off,
+                      trueObscure ? Icons.visibility : Icons.visibility_off,
                     )),
                     onPressed: () {
                       setState(() {
-                        e = !e;
+                        trueObscure = !trueObscure;
                       });
                     },
                   ),
                   keyboardType: TextInputType.visiblePassword,
-                  obscureText: e,
+                  obscureText: trueObscure,
                   typeoffield: 'password',
                   validator: (val) {
                     if (val!.isEmpty || val.length <= 7) {
                       return 'too short password';
                     }
                     return null;
-                  },
+                  }, controller: phoneController,
                 ),
                 TextfromField(
                   left: width * 0.05,
@@ -130,7 +133,7 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                   hintText: 'Enter your position',
                   suffixIcon: null,
                   keyboardType: TextInputType.name,
-                  obscureText: t,
+                  obscureText: falseObscure,
                   typeoffield: 'email',
                   validator: (val) {
                     // ignore: unrelated_type_equality_checks
@@ -138,13 +141,13 @@ class _RegistrationInfoState extends State<RegistrationInfo> {
                       return 'invalid position';
                     }
                     return null;
-                  },
+                  }, controller: addressController,
                 ),
                  Padding(
                   padding: EdgeInsets.only(left: width *0.18, right: width*0.18),
-                  child: const Elevatedbutton(
+                  child:  Elevatedbutton(
                     RouteName: navbar,
-                    ButtonName: 'Get Started',
+                    ButtonName: 'Get Started', function: () {  },
                   ),
                 )
               ],

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/home_view.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/drawer_home.dart';
-import 'package:swis_warehouse/ui/screens/HomePage/widgets/search_widget.dart';
 import 'package:swis_warehouse/ui/screens/LabelPage/main_view.dart';
 import 'package:swis_warehouse/ui/screens/MaterialPage/material_view.dart';
+
+import '../../ProfilePage/profile_view.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -20,18 +19,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
     const HomeView(),
     const diary(),
     const Materials(),
-    Scaffold(
-      body: Container(
-        color: Colors.blue,
-      ),
-    ),
+    ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const DrawerHome(),
-        appBar: _appbar(context),
+       // appBar: index == 3 ? null :_appbar(context),
         body: _pages[index],
         bottomNavigationBar: _navBarContainer());
   }
@@ -52,50 +47,50 @@ class _NavigationMenuState extends State<NavigationMenu> {
     );
   }
 
-  AppBar _appbar(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      leading: Builder(builder: (context) {
-        return IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-          icon: const Icon(
-            Ionicons.menu_outline,
-            color: Colors.brown ,
-          ),
-          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-        );
-      }),
-      actions: [
-        IconButton(
-            onPressed: () {
-              showSearch(context: context, delegate: CustomSearch());
-            },
-            icon: const Icon(
-              Ionicons.search,
-              color: Colors.brown,
-            )),
-        IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Ionicons.person,
-              color: Colors.brown,
-            )),
-      ],
-    );
-  }
+  // AppBar _appbar(BuildContext context) {
+  //   return AppBar(
+  //     elevation: 0,
+  //     leading: Builder(builder: (context) {
+  //       return IconButton(
+  //         onPressed: () {
+  //           Scaffold.of(context).openDrawer();
+  //         },
+  //         icon: const Icon(
+  //           Ionicons.menu_outline,
+  //           color: Colors.brown ,
+  //         ),
+  //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+  //       );
+  //     }),
+  //     // actions: [
+  //     //   // IconButton(
+  //     //   //     onPressed: () {
+  //     //   //       showSearch(context: context, delegate: CustomSearch());
+  //     //   //     },
+  //     //   //     icon: const Icon(
+  //     //   //       Ionicons.search,
+  //     //   //       color: Colors.brown,
+  //     //   //     )),
+  //     //   // IconButton(
+  //     //   //     onPressed: () {},
+  //     //   //     icon: const Icon(
+  //     //   //       Ionicons.notifications,
+  //     //   //       color: Colors.brown,
+  //     //   //     )),
+  //     // ],
+  //   );
+  // }
 
   GNav _navbar() {
     return GNav(
 
       onTabChange: _selectedPageIndex,
-      gap: 5,
+      gap: 1,
       padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.028),
       backgroundColor: Colors.white,
-      color: Colors.brown,
-      activeColor: Colors.brown ,
-      tabBackgroundColor: Colors.black12,
+      color: Colors.black54,
+      activeColor: Colors.black,
+      tabBackgroundColor: Colors.grey.shade200,
       tabBorderRadius: 20,
       iconSize: 27,
       textSize: 0,
@@ -110,8 +105,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
         ),
         GButton(icon: Icons.warehouse, text: 'warehouse'),
         GButton(
-          icon: Icons.receipt_long,
-          text: 'new',
+          icon: Icons.person,
+          text: 'profile',
         ),
       ],
     );

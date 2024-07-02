@@ -14,18 +14,12 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future postLogin(String email, String password) async {
     emit(state.copyWith(status: LoginStatus.loading));
-    done = false;
     try {
-      var loginModel = await LoginRepo().login(email, password);
-      await storage.write(key: 'token', value: loginModel['token']);
-      await storage.write(key: 'id', value: loginModel['id']);
-      done = true;
+      var loginModel = await LoginRepo.login(email, password);
+      await storage.write(key: 'token', value: loginModel['data']['access_token']);
+      await storage.write(key: 'id', value: loginModel['data']['id'].toString());
       emit(state.copyWith(
-          status: LoginStatus.success,
-          loginModel: LoginModel(
-              email: loginModel["user"]['email'],
-              name: loginModel["user"]['name'],
-              token: loginModel["token"])));
+          status: LoginStatus.success));
     } catch (error) {
       done = false;
       emit(state.copyWith(status: LoginStatus.error));

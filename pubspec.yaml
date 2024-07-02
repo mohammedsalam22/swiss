@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  permission_handler:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,6 +53,8 @@ dependencies:
   line_awesome_flutter:
   eva_icons_flutter:
   ionicons:
+  image_picker:
+
 
 
 dev_dependencies:

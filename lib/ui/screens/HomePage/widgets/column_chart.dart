@@ -52,9 +52,11 @@ class _ColumnChartState extends State<ColumnChart> {
           yValueMapper: (_ChartData data, _) => data.y,
           name: 'Gold',
           gradient: LinearGradient(colors: [
+            Colors.red,
             Colors.red.shade300,
-            Colors.red,
-            Colors.red,
+            Colors.red.shade300,
+            Colors.red.shade300,
+            Colors.red.shade200,
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           color: Colors.black,
           borderColor: Colors.black54,

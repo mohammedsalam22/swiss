@@ -63,96 +63,100 @@ class MaterialsState extends State<Materials> {
               children: [
                 ...products.map((val) {
                   return SingleChildScrollView(
-                      child: Card(
-                    surfaceTintColor: Colors.white,
-                    shadowColor: Colors.black45,
-                    color: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 30, right: 10, left: 10, bottom: 30),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Column(
-                            children: [
-                              SizedBox(
-                                  width: 100,
-                                  height: 80,
-                                  child: Image.asset('assets/img_1.png')),
-                            ],
-                          )),
-                          Expanded(
-                            child: Column(
+                      child: Container(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 10),
+                    child: Card(
+                      surfaceTintColor: Colors.white,
+                      shadowColor: Colors.black45,
+                      color: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(0))),
+                      elevation: 7,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 12, right: 0, left: 0, bottom: 12),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 10),
+                              child: ClipOval(
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Image.asset(
+                                    'assets/img_1.png',
+                                    fit: BoxFit.contain,
+                                  )),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'name: ${val.productname}',
-                                  // ignore: prefer_const_constructors
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      val.productname,
+                                      // ignore: prefer_const_constructors
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        val.price.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.grey, fontSize: 14),
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text(
-                                  val.scientific_name,
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 17),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  'Total: ${val.price.toString()}',
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 17),
-                                )
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const SizedBox(
-                                  height: 40,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Details(
-                                      id: val.id,
-                                      productname: val.productname,
-                                      scientific_name: val.scientific_name,
-                                      manufacturer: val.manufacturer,
-                                      date: val.date,
-                                      price: val.price,
-                                      quantity: val.quantity,
-                                    ),));
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.black45),
-                                    minimumSize: MaterialStateProperty.all(
-                                        const Size(60, 40)),
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10), // Set the border radius to 0 for rectangle
-                                      ),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Source ',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 17),
                                     ),
-                                  ),
-                                  child: const Text(
-                                    'Details',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                )
+                                    Text(
+                                      val.scientific_name,
+                                      style: const TextStyle(
+                                          color: Colors.red, fontSize: 17),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
                               ],
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              width: 40,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Details(
+                                    id: val.id,
+                                    productname: val.productname,
+                                    scientific_name: val.scientific_name,
+                                    manufacturer: val.manufacturer,
+                                    date: val.date,
+                                    price: val.price,
+                                    quantity: val.quantity,
+                                  ),
+                                ));
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.info,
+                                color: Colors.red,
+                                size: 26,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ));
