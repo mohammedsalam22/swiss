@@ -15,18 +15,24 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
         appBar: buildAppBar(),
         // drawer: const DrawerHome(),
         body: SingleChildScrollView(
           child: Container(
-            color: Colors.grey.shade50,
-            width: width,
-            height: height,
-            child: Column(children: [
-              buildIconButtons(context),
+              color: Colors.grey.shade50,
+              width: width,
+              height: height,
+              child: Column(children: [
+                  buildIconButtons(context),
               const Divider(
                 thickness: 0.2,
               ),
@@ -41,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
                     child: Text(
                       'Overview',
                       style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 23),
+                      TextStyle(fontWeight: FontWeight.w500, fontSize: 23),
                     ),
                   ),
                   Padding(
@@ -76,64 +82,97 @@ class _HomeViewState extends State<HomeView> {
                   ExportCard(title: '  Total Imports', value: '75%'),
                 ],
               ),
-            ]),
+               Container(
+          height: 90,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: ListView.builder(
+            itemCount: 10,
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                width: 240,
+                child: Card(
+                  elevation: 2,
+                  surfaceTintColor: Colors.white,
+                  color: Colors.white,
+                  child: ListTile(
+                    leading: Image.asset(
+                      'assets/img_1.png',
+                      width: 100,
+                    ),
+                    title: const Text('salam'),
+                    subtitle: const Row(
+                      children: [
+                        Text('10'),
+                        SizedBox(width: 16),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
-        ));
+        )
+        ]),)
+    ,
+    )
+    );
   }
 
   AppBar buildAppBar() {
     return AppBar(
-        elevation: 0,
-        surfaceTintColor: Colors.white,
-        shadowColor: Colors.grey,
-        title: const Center(
-            child: Text(
-          'Home',
-          style: TextStyle(fontWeight: FontWeight.w500),
-        )),
-      );
+      elevation: 0,
+      surfaceTintColor: Colors.white,
+      shadowColor: Colors.grey,
+      title: const Center(
+          child: Text(
+            'Home',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          )),
+    );
   }
 
   Container buildIconButtons(BuildContext context) {
     return Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-              height: 130,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CircularButton(
-                    icon: Icons.receipt_long,
-                    label: 'Report',
-                    onPressed: () {},
-                    color: Colors.purple.shade50,
-                    bordercolor: Colors.deepPurpleAccent,
-                  ),
-                  CircularButton(
-                    icon: Icons.analytics,
-                    label: 'Analytics',
-                    onPressed: () {},
-                    color: Colors.orange.shade50,
-                    bordercolor: Colors.orange,
-                  ),
-                  CircularButton(
-                    icon: Ionicons.notifications,
-                    label: 'Notifications',
-                    onPressed: () {},
-                    color: Colors.indigo.shade50,
-                    bordercolor: Colors.indigo.shade600,
-                  ),
-                  CircularButton(
-                    icon: Ionicons.search,
-                    label: 'Search',
-                    onPressed: () {
-                      showSearch(context: context, delegate: CustomSearch());
-                    },
-                    color: Colors.red.shade50,
-                    bordercolor: Colors.red,
-                  ),
-                ],
-              ),
-            );
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      height: 130,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircularButton(
+            icon: Icons.receipt_long,
+            label: 'Report',
+            onPressed: () {},
+            color: Colors.purple.shade50,
+            bordercolor: Colors.deepPurpleAccent,
+          ),
+          CircularButton(
+            icon: Icons.analytics,
+            label: 'Analytics',
+            onPressed: () {},
+            color: Colors.orange.shade50,
+            bordercolor: Colors.orange,
+          ),
+          CircularButton(
+            icon: Ionicons.notifications,
+            label: 'Notifications',
+            onPressed: () {},
+            color: Colors.indigo.shade50,
+            bordercolor: Colors.indigo.shade600,
+          ),
+          CircularButton(
+            icon: Ionicons.search,
+            label: 'Search',
+            onPressed: () {
+              showSearch(context: context, delegate: CustomSearch());
+            },
+            color: Colors.red.shade50,
+            bordercolor: Colors.red,
+          ),
+        ],
+      ),
+    );
   }
 
   Container _columnchartCountainer(double width, double height) {

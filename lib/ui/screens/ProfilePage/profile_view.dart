@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:swis_warehouse/ui/screens/ProfilePage/editprofile_view.dart';
+import 'package:swis_warehouse/ui/screens/ProfilePage/personal_info.dart';
 import 'dart:io';
+
+import '../../../constant_stuff/routes_name.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -9,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = "salam";
+  String name = "Mohammed salam";
   String email = "salam@example.com";
   String phone = "+0987654321";
   String address = "Alhamra street";
@@ -31,14 +35,16 @@ class _ProfilePageState extends State<ProfilePage> {
     _phoneController.text = phone;
     _addressController.text = address;
   }
+
   Future<void> _pickImage() async {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          _profileImage = File(pickedFile.path);
-        });
-      }
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
     }
+  }
+
   void _toggleEdit() {
     setState(() {
       if (isEditing) {
@@ -54,107 +60,189 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      appBar: buildAppBar(),
+      body: SingleChildScrollView(
         child: Column(
           children: [
             GestureDetector(
               onTap: _pickImage,
               child: CircleAvatar(
-                radius: 50,
+                radius: 75,
                 backgroundImage: _profileImage != null
                     ? FileImage(_profileImage!)
-                    : const AssetImage('assets/logo.png') as ImageProvider,
+                    : const AssetImage('assets/personal photo.jpg')
+                        as ImageProvider,
               ),
             ),
             const SizedBox(height: 16),
             isEditing
                 ? TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: "Name",
-                border: OutlineInputBorder(),
-              ),
-            )
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: "Name",
+                      border: OutlineInputBorder(),
+                    ),
+                  )
                 : Text(
-              name,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    name,
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+            accountContainer(),
+            Container(
+              color: Colors.grey.shade300,
+              height: 15,
+              width: double.infinity,
             ),
-            const SizedBox(height: 16),
-            PersonalInfo(
-              title: "Email",
-              controller: _emailController,
-              isEditing: isEditing,
-            ),
-            PersonalInfo(
-              title: "Phone",
-              controller: _phoneController,
-              isEditing: isEditing,
-            ),
-            PersonalInfo(
-              title: "Address",
-              controller: _addressController,
-              isEditing: isEditing,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _toggleEdit,
-              child: Text(isEditing ? "Save" : "Edit"),
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                // Code to change language
-              },
-              child: Text("Change Language"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Code to logout
-              },
-              child: Text("Logout"),
-            ),
+            settingsContainer(context),
           ],
         ),
       ),
     );
   }
-}
 
-class PersonalInfo extends StatelessWidget {
-  final String title;
-  final TextEditingController controller;
-  final bool isEditing;
-
-  PersonalInfo({
-    required this.title,
-    required this.controller,
-    required this.isEditing,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
+  Container accountContainer() {
+    return Container(
+      padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+      child: Column(
         children: [
-          Expanded(
-            flex: 2,
+          const Padding(
+            padding: EdgeInsets.only(right: 290),
             child: Text(
-              title,
-              style: TextStyle(fontSize: 18),
+              'Account',
+              style: TextStyle(
+                  fontSize: 19, fontWeight: FontWeight.w500, color: Colors.red),
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: isEditing
-                ? TextField(
-              controller: controller,
-              decoration: InputDecoration(border: OutlineInputBorder()),
-            )
-                : Text(
-              controller.text,
-              style: TextStyle(fontSize: 16),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: PersonalInfo(
+              title: "Email",
+              controller: _emailController,
+              isEditing: isEditing,
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: PersonalInfo(
+              title: "Phone",
+              controller: _phoneController,
+              isEditing: isEditing,
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: PersonalInfo(
+              title: "Address",
+              controller: _addressController,
+              isEditing: isEditing,
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      actions: [
+        IconButton(
+            onPressed: () {}, icon: const Icon(Icons.light_mode_outlined))
+      ],
+      leading: IconButton(
+          onPressed: _toggleEdit,
+          icon: isEditing ? const Icon(Icons.done) : const Icon(Icons.edit,size: 25,)),
+    );
+  }
+
+  Container settingsContainer(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 20, right: 15, left: 15),
+      height: 500,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(bottom: 15, right: 5),
+            child: Text(
+              'Settings',
+              style: TextStyle(
+                  fontWeight: FontWeight.w500, fontSize: 19, color: Colors.red),
+            ),
+          ),
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, edit),
+            child: const ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                side: BorderSide(color: Colors.grey, width: 1.0),
+              ),
+              leading: Icon(Icons.storage),
+              title: Text('Data & Storage'),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const ListTile(
+            leading: Icon(Icons.language),
+            title: Text('Language'),
+            trailing: Text(
+              'English',
+              style: TextStyle(fontSize: 18, color: Colors.indigo),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              side: BorderSide(color: Colors.grey, width: 1.0),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, aboutUs);
+            },
+            child: const ListTile(
+              leading: Icon(Icons.info_outline),
+              title: Text('about us'),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                side: BorderSide(color: Colors.grey, width: 1.0),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, terms);
+            },
+            child: const ListTile(
+              leading: Icon(Icons.rule_sharp),
+              title: Text('terms&conditions '),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                side: BorderSide(color: Colors.grey, width: 1.0),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Divider(),
+          InkWell(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, loginScreen);
+            },
+            child: const ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('logout'),
             ),
           ),
         ],

@@ -1,26 +1,27 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:swis_warehouse/constant_stuff/url.dart';
 
-class LoginApi {
+class MaterialApi {
   static String? message;
 
- static Future loginAuth(String email, String password) async {
+  static Future material() async {
+    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
     try {
-      var response = await http.post(
-        Uri.parse('$url/api/login'),
+      var response = await http.get(
+        Uri.parse('$url/api/indexItemForKeeper'),
         headers: {
-          'Accept': 'application/json' ,
-        },
-        body: {
-          'email': email,
-          'password': password
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authentication': 'Bearer ${await secureStorage.read(key: 'token')} '
         },
       );
       print(response.body);
-      if (response.statusCode != 200) {
+      if (response.statusCode == 200) {
         var j = jsonDecode(response.body);
+        print(response.body);
         message = j["message"];
         throw Exception('error occurred');
       } else {

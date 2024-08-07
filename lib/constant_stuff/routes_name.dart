@@ -5,3 +5,4 @@ const navbar = 'NavigationMenu';
 const forget_password = 'ForgetPassword';
 const aboutUs = 'AboutUsScreen';
 const terms = 'TermsAndConditionsScreen';
+const edit = 'EditProfile';

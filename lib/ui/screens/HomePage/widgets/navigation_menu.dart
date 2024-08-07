@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/home_view.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/drawer_home.dart';
 import 'package:swis_warehouse/ui/screens/LabelPage/main_view.dart';
+import 'package:swis_warehouse/ui/screens/LabelStatus/status_view.dart';
 import 'package:swis_warehouse/ui/screens/MaterialPage/material_view.dart';
 
 import '../../ProfilePage/profile_view.dart';
@@ -18,6 +19,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   final List<Widget> _pages = [
     const HomeView(),
     const diary(),
+    const StatusScreen(),
     const Materials(),
     ProfilePage(),
   ];
@@ -26,15 +28,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const DrawerHome(),
-       // appBar: index == 3 ? null :_appbar(context),
+        // appBar: index == 3 ? null :_appbar(context),
         body: _pages[index],
         bottomNavigationBar: _navBarContainer());
   }
 
   Container _navBarContainer() {
     return Container(
-      decoration:  const BoxDecoration(
-
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(1),
@@ -83,10 +84,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   GNav _navbar() {
     return GNav(
-
       onTabChange: _selectedPageIndex,
       gap: 1,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.028),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.028),
       backgroundColor: Colors.white,
       color: Colors.black54,
       activeColor: Colors.black,
@@ -103,6 +103,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
           icon: Icons.near_me,
           text: 'send',
         ),
+        GButton(icon: Icons.fire_truck_outlined, text: 'Status'),
         GButton(icon: Icons.warehouse, text: 'warehouse'),
         GButton(
           icon: Icons.person,

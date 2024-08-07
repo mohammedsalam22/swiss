@@ -6,6 +6,7 @@ import 'package:swis_warehouse/ui/screens/HomePage/home_view.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/navigation_menu.dart';
 import 'package:swis_warehouse/ui/screens/LoginPages/loginPage.dart';
 import 'package:swis_warehouse/ui/screens/LoginPages/regesterationInfo.dart';
+import 'package:swis_warehouse/ui/screens/ProfilePage/editprofile_view.dart';
 import 'constant_stuff/routes_name.dart';
 
 class AppRouter {
@@ -25,6 +26,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const AboutUsScreen());
       case terms:
         return MaterialPageRoute(builder: (_) => const TermsAndConditionsScreen());
+      case edit:
+        return MaterialPageRoute(builder: (_) => const EditProfile());
     }
     return null;
   }

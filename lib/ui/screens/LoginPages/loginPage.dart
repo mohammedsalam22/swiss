@@ -74,6 +74,8 @@ class _LoginPageState extends State<LoginPage> {
                   await loginCubit.postLogin(
                       emailController.text, passwordController.text);
                 } else {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (_) => const NavigationMenu()));
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                         content:

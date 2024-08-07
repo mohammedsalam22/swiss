@@ -8,6 +8,32 @@ class RequestWarrant extends StatefulWidget {
 }
 
 class _RequestWarrantState extends State<RequestWarrant> {
+  List<TextEditingController> materialControllers = [];
+  List<TextEditingController> amountControllers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with one field
+    addField();
+  }
+
+  // Function to add a new set of fields
+  void addField() {
+    setState(() {
+      materialControllers.add(TextEditingController());
+      amountControllers.add(TextEditingController());
+    });
+  }
+
+  // Function to print the values of the controllers
+  void printValues() {
+    for (int i = 0; i < materialControllers.length; i++) {
+      print(
+          'Material: ${materialControllers[i].text}, Amount: ${amountControllers[i].text}');
+    }
+  }
+
   bool notcheked = false;
   bool cheked = true;
 
@@ -19,72 +45,147 @@ class _RequestWarrantState extends State<RequestWarrant> {
       body: SingleChildScrollView(
         child: Container(
           height: height,
-          child: Column(
-            children: [
-              SizedBox(
-                height: height * 0.01,
-              ),
-              SizedBox(
-                height: height * 0.8,
-                width: width,
-                child: Column(
+          child: Column(children: [
+            SizedBox(
+              height: height * 0.01,
+            ),
+            SizedBox(
+              height: height * 0.8,
+              width: width,
+              child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      right: width * 0.65, top: 0, bottom: height * 0.005),
+                  child: const Text(
+                    'Transiction',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey),
+                  ),
+                ),
+                Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: width * 0.4, top: 0, bottom: height * 0.01),
-                      child: const Text(
-                        'Request Warrent',
-                        style: TextStyle(
-                            fontSize: 29,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: buildTextFormField('WarrentNum'),
-                        ),
-                        Expanded(
-                          child: buildTextFormField('PhoneNum'),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: buildTextFormField('Wieght'),
-                        ),
-                        Expanded(
-                          child: buildTextFormField('Recieved date'),
-                        ),
-                      ],
-                    ),
-                    buildTextFormField('Drivers name'),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: buildTextFormField('Company name'),
-                        ),
-                        Expanded(
-                          child: buildTextFormField('Drivers Id'),
-                        ),
-                      ],
-                    ),
-                    buildTextFormField('More details'),
                     Expanded(
-                      child: Row(
-                        children: [
-                          _chekedboxWidget(),
-                          _elevatedButton(),
-                        ],
-                      ),
+                      child: buildTextFormField('WarrentNum'),
+                    ),
+                    Expanded(
+                      child: buildTextFormField('PhoneNum'),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildTextFormField('Wieght'),
+                    ),
+                    Expanded(
+                      child: buildTextFormField('Recieved date'),
+                    ),
+                  ],
+                ),
+                buildTextFormField('Drivers name'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildTextFormField('Company name'),
+                    ),
+                    Expanded(
+                      child: buildTextFormField('Drivers Id'),
+                    ),
+                  ],
+                ),
+                buildTextFormField('More details'),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      'Materials',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    const Icon(
+                      Icons.arrow_drop_down_outlined,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 125,),
+                    const Text('New item',style: TextStyle(fontSize: 22,color: Colors.grey,fontWeight: FontWeight.w500),),
+                    IconButton(
+                        onPressed: () => addField(),
+                        icon: const Icon(
+                          Icons.add_circle_outline_sharp,
+                          color: Colors.black,
+                          size: 30,
+                        ))
+                  ],
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: materialControllers.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: materialControllers[index],
+                                decoration: const InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            style: BorderStyle.solid,
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    labelText: 'material',
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    filled: true,
+                                    fillColor: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextField(
+                                controller: amountControllers[index],
+                                decoration: const InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            style: BorderStyle.solid,
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    labelText: 'amount',
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    filled: true,
+                                    fillColor: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 250),
+                  child: _elevatedButton(),
+                ),
+              ]),
+            ),
+          ]),
         ),
       ),
     );
@@ -117,35 +218,6 @@ class _RequestWarrantState extends State<RequestWarrant> {
         ));
   }
 
-  Expanded _chekedboxWidget() {
-    return Expanded(
-      child: Column(
-        children: [
-          CheckboxListTile(
-            controlAffinity: ListTileControlAffinity.leading,
-            value: notcheked,
-            onChanged: (val) {
-              setState(() {
-                notcheked = val!;
-              });
-            },
-            title: const Text('WareHouse'),
-          ),
-          CheckboxListTile(
-            controlAffinity: ListTileControlAffinity.leading,
-            value: cheked,
-            onChanged: (val) {
-              setState(() {
-                cheked = val!;
-              });
-            },
-            title: const Text('Donor'),
-          ),
-        ],
-      ),
-    );
-  }
-
   buildTextFormField(String labeltext) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.1,
@@ -156,7 +228,7 @@ class _RequestWarrantState extends State<RequestWarrant> {
             enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
                     width: 1, style: BorderStyle.solid, color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             labelText: labeltext,
             border: const OutlineInputBorder(
                 borderSide: BorderSide.none,

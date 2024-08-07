@@ -15,8 +15,11 @@ class _diaryState extends State<diary> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+
         body: Column(
-          children: [_tabBarContainer(), _tabBarViewer()],
+          children: [
+            Container(height: 30,width: double.infinity,),
+            _tabBarContainer(), _tabBarViewer()],
         ),
       ),
     );
@@ -27,7 +30,6 @@ class _diaryState extends State<diary> {
       child: TabBarView(children: [
         RequestWarrant(),
         QrPage(),
-
       ]),
     );
   }
@@ -42,7 +44,6 @@ class _diaryState extends State<diary> {
       child: const Column(
         children: [
           TabBar(
-
             padding: EdgeInsets.symmetric(horizontal: 10),
             indicatorColor: Colors.red,
             indicatorSize: TabBarIndicatorSize.tab,
