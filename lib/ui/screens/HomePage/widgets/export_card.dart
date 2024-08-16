@@ -14,24 +14,24 @@ class ExportCard extends StatelessWidget {
       color: Colors.white,
       elevation: 2,
       child: Container(
-        width: 150,
-        height: 100,
+        width: 170,
+        height: 110,
         padding: const EdgeInsets.only(top: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              title,
+              title.substring(0,10),
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(
               value,
               style: const TextStyle(
-                  fontSize: 22,
+                  fontSize: 19,
                   fontWeight: FontWeight.w500,
                   color: Colors.blueAccent),
             ),

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ColumnChart extends StatefulWidget {
-  const ColumnChart({super.key});
+  const ColumnChart(
+      {super.key, required this.data, required this.name, required this.quant});
+
+  final String name;
+  final List data;
+  final String quant;
 
   @override
   State<ColumnChart> createState() => _ColumnChartState();
@@ -15,15 +20,11 @@ class _ColumnChartState extends State<ColumnChart> {
 
   @override
   void initState() {
-    data = [
-      _ChartData('CHN', 12),
-      _ChartData('GER', 15),
-      _ChartData('RUS', 30),
-      _ChartData('BRZ', 6.4),
-      _ChartData('IND', 14),
-      _ChartData('SYR', 20),
-      _ChartData('UNS', 50),
-    ];
+    data = [];
+    for (int i = 0; i < widget.data.length; i++) {
+      data.add(_ChartData(widget.data[i][widget.name],
+          (widget.data[i][widget.quant] as int).toDouble()));
+    }
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -36,7 +37,7 @@ class _ColumnChartState extends State<ColumnChart> {
       primaryXAxis: const CategoryAxis(
         maximum: 8,
       ),
-      primaryYAxis: const NumericAxis(minimum: 0, maximum: 70, interval: 10),
+      primaryYAxis: const NumericAxis(minimum: 0, maximum: 1000, interval: 50),
       tooltipBehavior: _tooltip,
       series: _columnseries(),
     );
@@ -50,7 +51,7 @@ class _ColumnChartState extends State<ColumnChart> {
           dataSource: data,
           xValueMapper: (_ChartData data, _) => data.x,
           yValueMapper: (_ChartData data, _) => data.y,
-          name: 'Gold',
+          name: 'material',
           gradient: LinearGradient(colors: [
             Colors.red,
             Colors.red.shade300,

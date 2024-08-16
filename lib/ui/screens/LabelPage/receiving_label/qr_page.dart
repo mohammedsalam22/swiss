@@ -53,11 +53,10 @@ class _QrPageState extends State<QrPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ReceivingWarrantScreen()
-                      //     QRViewExample(
-                      //   onQRViewCreated: _onQRViewCreated,
-                      // ),
-                      ),
+                    builder: (context) => QRViewExample(
+                      onQRViewCreated: _onQRViewCreated,
+                    ),
+                  ),
                 );
               },
               child: const Text('Scan QR Code'),

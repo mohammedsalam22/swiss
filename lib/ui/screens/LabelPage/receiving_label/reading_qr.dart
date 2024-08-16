@@ -17,15 +17,15 @@ class _ReceivingWarrantScreenState extends State<ReceivingWarrantScreen> {
     Products(name: 'Product 3', imageUrl: 'assets/img_1.png', quantity: 3),
   ];
 
-  void _saveData() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ReceivedLabel(
-                products: products,
-              )),
-    );
-  }
+  // void _saveData() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => ReceivedLabel(
+  //               products: products, id: 1,
+  //             )),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _ReceivingWarrantScreenState extends State<ReceivingWarrantScreen> {
       padding: const EdgeInsets.only(left: 100, top: 20),
       width: 300,
       child: ElevatedButton(
-        onPressed: _saveData,
+        onPressed: (){},//_saveData,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.red,
           padding: const EdgeInsets.symmetric(vertical: 12.0),

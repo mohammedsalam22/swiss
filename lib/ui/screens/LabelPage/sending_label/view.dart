@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:swis_warehouse/bloc/warrent_cubit/warrent_cubit.dart';
 
 class RequestWarrant extends StatefulWidget {
   const RequestWarrant({super.key});
@@ -10,6 +12,8 @@ class RequestWarrant extends StatefulWidget {
 class _RequestWarrantState extends State<RequestWarrant> {
   List<TextEditingController> materialControllers = [];
   List<TextEditingController> amountControllers = [];
+  List<TextEditingController> driverControllers = [];
+  List<TextEditingController> itemIdControllers = [];
 
   @override
   void initState() {
@@ -18,13 +22,32 @@ class _RequestWarrantState extends State<RequestWarrant> {
     addField();
   }
 
+  Map tr = {};
+
   // Function to add a new set of fields
   void addField() {
     setState(() {
       materialControllers.add(TextEditingController());
       amountControllers.add(TextEditingController());
+      driverControllers.add(TextEditingController());
+      itemIdControllers.add(TextEditingController());
     });
   }
+
+  TextEditingController isConyey = TextEditingController();
+
+  TextEditingController status = TextEditingController();
+
+  TextEditingController date = TextEditingController();
+
+  TextEditingController transactionType = TextEditingController();
+
+  TextEditingController type = TextEditingController();
+
+  TextEditingController waybillNum = TextEditingController();
+
+  TextEditingController notes = TextEditingController();
+
 
   // Function to print the values of the controllers
   void printValues() {
@@ -67,35 +90,35 @@ class _RequestWarrantState extends State<RequestWarrant> {
                 Row(
                   children: [
                     Expanded(
-                      child: buildTextFormField('WarrentNum'),
+                      child: buildTextFormField('isConvey', isConyey),
                     ),
                     Expanded(
-                      child: buildTextFormField('PhoneNum'),
+                      child: buildTextFormField('status', status),
                     ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                      child: buildTextFormField('Wieght'),
+                      child: buildTextFormField('date', date),
                     ),
                     Expanded(
-                      child: buildTextFormField('Recieved date'),
+                      child: buildTextFormField(
+                          'transaction type', transactionType),
                     ),
                   ],
                 ),
-                buildTextFormField('Drivers name'),
+                buildTextFormField('type', type),
                 Row(
                   children: [
                     Expanded(
-                      child: buildTextFormField('Company name'),
+                      child: buildTextFormField('waybill_num', waybillNum),
                     ),
                     Expanded(
-                      child: buildTextFormField('Drivers Id'),
+                      child: buildTextFormField('notes', notes),
                     ),
                   ],
                 ),
-                buildTextFormField('More details'),
                 Row(
                   children: [
                     const SizedBox(
@@ -112,8 +135,16 @@ class _RequestWarrantState extends State<RequestWarrant> {
                       Icons.arrow_drop_down_outlined,
                       color: Colors.grey,
                     ),
-                    const SizedBox(width: 125,),
-                    const Text('New item',style: TextStyle(fontSize: 22,color: Colors.grey,fontWeight: FontWeight.w500),),
+                    const SizedBox(
+                      width: 125,
+                    ),
+                    const Text(
+                      'New item',
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500),
+                    ),
                     IconButton(
                         onPressed: () => addField(),
                         icon: const Icon(
@@ -173,6 +204,48 @@ class _RequestWarrantState extends State<RequestWarrant> {
                                     fillColor: Colors.white),
                               ),
                             ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextField(
+                                controller: driverControllers[index],
+                                decoration: const InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            style: BorderStyle.solid,
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    labelText: 'driver',
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    filled: true,
+                                    fillColor: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextField(
+                                controller: itemIdControllers[index],
+                                decoration: const InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            style: BorderStyle.solid,
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    labelText: 'item',
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    filled: true,
+                                    fillColor: Colors.white),
+                              ),
+                            ),
                           ],
                         ),
                       );
@@ -191,39 +264,66 @@ class _RequestWarrantState extends State<RequestWarrant> {
     );
   }
 
-  Container _elevatedButton() {
-    return Container(
-        padding: EdgeInsets.only(
-          right: MediaQuery.of(context).size.width * 0.05,
-        ),
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(const Color.fromARGB(255, 255, 0, 0)),
-            minimumSize: MaterialStateProperty.all(Size(
-                MediaQuery.of(context).size.width * 0.3,
-                MediaQuery.of(context).size.height * 0.06)),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    10), // Set the border radius to 0 for rectangle
+  Widget _elevatedButton() {
+    return BlocListener<WarrentCubit, WarrentState>(
+      listener: (context, state) {
+        if (state.status == WarrentStatus.success) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('done'))) ;
+        }
+      },
+      child: Container(
+          padding: EdgeInsets.only(
+            right: MediaQuery.of(context).size.width * 0.05,
+          ),
+          child: ElevatedButton(
+            onPressed: () async {
+              tr = {
+                "is_convoy": isConyey.text,
+                "status": status.text,
+                "date": date.text,
+                "transaction_type": transactionType.text,
+                "type": type.text,
+                "waybill_num": waybillNum.text,
+                "notes[en]": notes.text,
+              };
+              for (int i = 0; i < amountControllers.length; i++) {
+                tr['items[${i + 1}][warehouse_id]'] =
+                    materialControllers[i].text;
+                tr['items[${i + 1}][item_id]'] = itemIdControllers[i].text;
+                tr['items[${i + 1}][quantity]'] = amountControllers[i].text;
+                tr['drivers[${i + 1}][driver_id]'] = driverControllers[i].text;
+              }
+              print(tr) ;
+              await BlocProvider.of<WarrentCubit>(context).warrent(tr) ;
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                  const Color.fromARGB(255, 255, 0, 0)),
+              minimumSize: MaterialStateProperty.all(Size(
+                  MediaQuery.of(context).size.width * 0.3,
+                  MediaQuery.of(context).size.height * 0.06)),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      10), // Set the border radius to 0 for rectangle
+                ),
               ),
             ),
-          ),
-          child: const Text(
-            'submit',
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
-        ));
+            child: const Text(
+              'submit',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          )),
+    );
   }
 
-  buildTextFormField(String labeltext) {
+  buildTextFormField(String labeltext, TextEditingController controller) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.1,
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
             enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(

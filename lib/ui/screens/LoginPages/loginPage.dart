@@ -68,35 +68,35 @@ class _LoginPageState extends State<LoginPage> {
               RouteName: registeration,
               ButtonName: 'LogIn',
               function: () async {
-                print(emailController.text) ;
+                print(emailController.text);
                 if (_formKey.currentState!.validate()) {
                   LoginCubit loginCubit = BlocProvider.of<LoginCubit>(context);
                   await loginCubit.postLogin(
                       emailController.text, passwordController.text);
+                  // Navigator.of(context).pushReplacement(
+                  //     MaterialPageRoute(builder: (_) => const NavigationMenu()));
                 } else {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => const NavigationMenu()));
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                         content:
                             Text('all category is required to add correctly')),
                   );
                   //Navigator.of(context).pushReplacement(
-                    //  MaterialPageRoute(builder: (_) => const NavigationMenu()));
+                  //  MaterialPageRoute(builder: (_) => const NavigationMenu()));
                 }
               });
-        }, listener: (BuildContext context, LoginState state) {
-          if(state.status == LoginStatus.success){
+        },
+        listener: (BuildContext context, LoginState state) {
+          if (state.status == LoginStatus.success) {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (_) => const NavigationMenu()));
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('done Successfully')));
-          }
-          else if(state.status == LoginStatus.error){
+          } else if (state.status == LoginStatus.error) {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('not apidone Successfully')));
           }
-      },
+        },
       ),
     );
   }

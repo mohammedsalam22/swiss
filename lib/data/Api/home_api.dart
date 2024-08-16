@@ -3,34 +3,26 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swis_warehouse/constant_stuff/url.dart';
+
 class HomeApi {
   static String? message;
 
   static Future Home() async {
-    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-
-    message = '';
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     try {
       var response = await http.get(
-        Uri.parse('$url/'),
+        Uri.parse('$url/api/showWarehouseForKeeper'),
         headers: {
           'Accept': 'application/json',
-          'Authintication': 'Bearer ${await secureStorage.read(key: 'token')} ',
+          'Authorization': 'Bearer ${preferences.get('token')}'
         },
       );
       print(response.body);
-      if (response.statusCode != 200) {
-        var j = jsonDecode(response.body);
-        message = j["message"];
-        throw Exception('error occurred');
-      } else {
-        if (response.body.isEmpty) {
-          throw Exception('empty');
-        }
+      if (response.statusCode == 200) {
         return response.body;
       }
-    } catch (error) {
-      rethrow;
+    } catch (e) {
+      print(e);
     }
   }
 }

@@ -8,7 +8,6 @@ class CircularChart extends StatefulWidget {
     required this.data,
   });
 
-
   final List<chartdata> data;
 
   @override
@@ -34,9 +33,8 @@ class _CircularChartState extends State<CircularChart> {
 
   List<CircularSeries<chartdata, String>> _circularseries() {
     return <CircularSeries<chartdata, String>>[
-
       DoughnutSeries<chartdata, String>(
-        pointColorMapper: (chartdata data, _)=> data.color,
+          pointColorMapper: (chartdata data, _) => data.color,
           dataSource: widget.data,
           xValueMapper: (chartdata data, _) => data.name,
           yValueMapper: (chartdata data, _) => data.value,
@@ -61,5 +59,3 @@ class _CircularChartState extends State<CircularChart> {
     ];
   }
 }
-
-

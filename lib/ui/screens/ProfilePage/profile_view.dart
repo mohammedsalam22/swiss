@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swis_warehouse/constant_stuff/Token.dart';
 import 'package:swis_warehouse/ui/screens/ProfilePage/editprofile_view.dart';
 import 'package:swis_warehouse/ui/screens/ProfilePage/personal_info.dart';
 import 'dart:io';
 
+import '../../../bloc/Profile/profile_cubit.dart';
 import '../../../constant_stuff/routes_name.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -27,13 +33,21 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
 
-  @override
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _nameController.text = name;
+  //   _emailController.text = email;
+  //   _phoneController.text = phone;
+  //   _addressController.text = address;
+  // }
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await BlocProvider.of<ProfileCubit>(context, listen: false)
+          .details(Token.value);
+    });
     super.initState();
-    _nameController.text = name;
-    _emailController.text = email;
-    _phoneController.text = phone;
-    _addressController.text = address;
   }
 
   Future<void> _pickImage() async {
@@ -57,46 +71,72 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  Map details = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: CircleAvatar(
-                radius: 75,
-                backgroundImage: _profileImage != null
-                    ? FileImage(_profileImage!)
-                    : const AssetImage('assets/personal photo.jpg')
-                        as ImageProvider,
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          if (state.status == ProfileStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.red,
               ),
-            ),
-            const SizedBox(height: 16),
-            isEditing
-                ? TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: "Name",
-                      border: OutlineInputBorder(),
-                    ),
-                  )
-                : Text(
-                    name,
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+            );
+          }
+          if (BlocProvider.of<ProfileCubit>(context).detail == null) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.black,
+              ),
+            );
+          }
+          details = BlocProvider.of<ProfileCubit>(context).detail['data'];
+          _nameController.text = details['name'];
+          _emailController.text = details['email'];
+          _phoneController.text = details['phone'];
+          _addressController.text = details['contact_email'];
+
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: CircleAvatar(
+                    radius: 75,
+                    backgroundImage: _profileImage != null
+                        ? FileImage(_profileImage!)
+                        : const AssetImage('assets/personal photo.jpg')
+                            as ImageProvider,
                   ),
-            accountContainer(),
-            Container(
-              color: Colors.grey.shade300,
-              height: 15,
-              width: double.infinity,
+                ),
+                const SizedBox(height: 16),
+                isEditing
+                    ? TextField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          labelText: "Name",
+                          border: OutlineInputBorder(),
+                        ),
+                      )
+                    : Text(
+                        name,
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                accountContainer(),
+                Container(
+                  color: Colors.grey.shade300,
+                  height: 15,
+                  width: double.infinity,
+                ),
+                settingsContainer(context),
+              ],
             ),
-            settingsContainer(context),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -136,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.only(left: 8, right: 8),
             child: PersonalInfo(
-              title: "Address",
+              title: "Contact",
               controller: _addressController,
               isEditing: isEditing,
             ),
@@ -155,7 +195,12 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
       leading: IconButton(
           onPressed: _toggleEdit,
-          icon: isEditing ? const Icon(Icons.done) : const Icon(Icons.edit,size: 25,)),
+          icon: isEditing
+              ? const Icon(Icons.done)
+              : const Icon(
+                  Icons.edit,
+                  size: 25,
+                )),
     );
   }
 

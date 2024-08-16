@@ -2,21 +2,11 @@
 
 class MaterialInformations{
   int id;
-  String scientific_name;
-  String manufacturer;
-  String date;
-  String image;
-  String productname;
-  String price;
+  String name;
   int quantity;
   MaterialInformations({
     required this.id,
-    required this.scientific_name,
-    required this.manufacturer,
-    required this.date,
-    required this.image,
-    required this.price,
-    required this.productname,
+    required this.name,
     required this.quantity
   });
 }

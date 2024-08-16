@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:swis_warehouse/bloc/Home/home_cubit.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/circular_buttons.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/column_chart.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/export_card.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/widgets/search_widget.dart';
+import 'package:swis_warehouse/ui/screens/Inventory/inventory_view.dart';
+import 'package:swis_warehouse/ui/screens/Inventory/postdate.dart';
+
+import '../Report/report_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -14,110 +20,102 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await BlocProvider.of<HomeCubit>(context, listen: false).home();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: buildAppBar(),
         // drawer: const DrawerHome(),
         body: SingleChildScrollView(
-          child: Container(
-              color: Colors.grey.shade50,
-              width: width,
-              height: height,
-              child: Column(children: [
+          child: BlocBuilder<HomeCubit, HomeState>(
+            builder: (context, state) {
+              if (state.status == HomeStatus.loading) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.red,
+                  ),
+                );
+              }
+              if (BlocProvider.of<HomeCubit>(context).home1 == null) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.red,
+                  ),
+                );
+              }
+              var home = BlocProvider.of<HomeCubit>(context).home1['data'];
+              return Container(
+                color: Colors.grey.shade50,
+                width: width,
+                height: height,
+                child: Column(children: [
                   buildIconButtons(context),
-              const Divider(
-                thickness: 0.2,
-              ),
-              const SizedBox(
-                height: 17,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Text(
-                      'Overview',
-                      style:
-                      TextStyle(fontWeight: FontWeight.w500, fontSize: 23),
-                    ),
+                  const Divider(
+                    thickness: 0.2,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 12),
-                    child: Text(
-                      'Month',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                          color: Colors.grey),
-                    ),
+                  const SizedBox(
+                    height: 17,
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 17,
-              ),
-              const Divider(
-                thickness: 0.2,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              _columnchartCountainer(width, height),
-              const SizedBox(
-                height: 25,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ExportCard(title: '  Total Exports', value: '25%'),
-                  ExportCard(title: '  Total Imports', value: '75%'),
-                ],
-              ),
-               Container(
-          height: 90,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: ListView.builder(
-            itemCount: 10,
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return SizedBox(
-                width: 240,
-                child: Card(
-                  elevation: 2,
-                  surfaceTintColor: Colors.white,
-                  color: Colors.white,
-                  child: ListTile(
-                    leading: Image.asset(
-                      'assets/img_1.png',
-                      width: 100,
-                    ),
-                    title: const Text('salam'),
-                    subtitle: const Row(
-                      children: [
-                        Text('10'),
-                        SizedBox(width: 16),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 12),
+                        child: Text(
+                          home['name'] ?? "",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 18),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: Text(
+                          home['code'],
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: Colors.grey),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  const SizedBox(
+                    height: 17,
+                  ),
+                  const Divider(
+                    thickness: 0.2,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _columnchartCountainer(width, height, home['items'],'name','quantity'),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ExportCard(
+                          title: 'Free capacity',
+                          value: home['Free_capacity'].toString()),
+                      ExportCard(
+                          title: home['main_Warehouse']['name'] ?? "",
+                          value: home['branch']['name'] ?? ""),
+                    ],
+                  ),
+                ]),
               );
             },
           ),
-        )
-        ]),)
-    ,
-    )
-    );
+        ));
   }
 
   AppBar buildAppBar() {
@@ -127,9 +125,9 @@ class _HomeViewState extends State<HomeView> {
       shadowColor: Colors.grey,
       title: const Center(
           child: Text(
-            'Home',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          )),
+        'Home',
+        style: TextStyle(fontWeight: FontWeight.w500),
+      )),
     );
   }
 
@@ -143,14 +141,20 @@ class _HomeViewState extends State<HomeView> {
           CircularButton(
             icon: Icons.receipt_long,
             label: 'Report',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => WarehouseReportPage()));
+            },
             color: Colors.purple.shade50,
             bordercolor: Colors.deepPurpleAccent,
           ),
           CircularButton(
             icon: Icons.analytics,
             label: 'Analytics',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>  PostDate()));
+            },
             color: Colors.orange.shade50,
             bordercolor: Colors.orange,
           ),
@@ -175,29 +179,13 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Container _columnchartCountainer(double width, double height) {
+  Container _columnchartCountainer(double width, double height, List hh, String name,String quant) {
     return Container(
         height: height * 0.35,
         padding: EdgeInsets.only(left: width * 0.04, right: width * 0.04),
         color: Colors.white10,
-        child: const ColumnChart());
+        child: ColumnChart(
+          data: hh, name: name, quant: quant,
+        ));
   }
 }
-// Row _circularchartContainer(double width, double height) {
-//   return Row(
-//     children: [
-//       Container(
-//           height: height * 0.38,
-//           width: width * 0.72,
-//           child: CircularChart(
-//             data: [
-//               chartdata(value: 10, name: 'material', color: Colors.black54),
-//               chartdata(value: 20, name: 'exports', color: Colors.black38),
-//               chartdata(
-//                   value: 20, name: 'imports', color: Colors.red.shade400),
-//             ],
-//           )),
-//       const ColoredDotsList(),
-//     ],
-//   );
-// }

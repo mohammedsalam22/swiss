@@ -19,7 +19,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   final List<Widget> _pages = [
     const HomeView(),
     const diary(),
-    const StatusScreen(),
+    const TransictionStatusScreen(),
     const Materials(),
     ProfilePage(),
   ];

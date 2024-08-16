@@ -5,7 +5,8 @@ class PersonalInfo extends StatelessWidget {
   final TextEditingController controller;
   final bool isEditing;
 
-  PersonalInfo({super.key,
+  const PersonalInfo({
+    super.key,
     required this.title,
     required this.controller,
     required this.isEditing,
@@ -28,13 +29,14 @@ class PersonalInfo extends StatelessWidget {
             flex: 3,
             child: isEditing
                 ? TextField(
-              controller: controller,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
-            )
+                    controller: controller,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
+                  )
                 : Text(
-              controller.text,
-              style: const TextStyle(fontSize: 16),
-            ),
+                    controller.text,
+                    style: const TextStyle(fontSize: 16),
+                  ),
           ),
         ],
       ),
