@@ -95,20 +95,6 @@ class _DetailsState extends State<Details> {
                       // color: theme.colorScheme.secondary,
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite,
-                            size: 28,
-                            // color: theme.primaryColor,
-                            color: Colors.white,
-                          )),
-                    ],
-                  ),
                 ),
               ],
             );
@@ -126,7 +112,7 @@ class _DetailsState extends State<Details> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('size / weight',
+            const Text('Size/wight',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
@@ -167,11 +153,11 @@ class _DetailsState extends State<Details> {
   }
 
   Row secondRow() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Expired Date',
@@ -196,7 +182,7 @@ class _DetailsState extends State<Details> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Medicine Type',
+            Text('UnitType',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
@@ -206,7 +192,7 @@ class _DetailsState extends State<Details> {
               height: 8,
             ),
             Text(
-              'Pain reliever',
+              details['unitType'],
               style: TextStyle(
                   fontSize: 18, fontFamily: 'Open_Sans', color: Colors.black87),
             )

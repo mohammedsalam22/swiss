@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swis_warehouse/constant_stuff/routes_name.dart';
 import 'package:swis_warehouse/ui/public_widgets/ElevatedButton.dart';
 import 'package:swis_warehouse/ui/public_widgets/textFormField.dart';
@@ -17,6 +18,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   bool trueObscure = true;
   bool falseObscure = false;
   final _formKey = GlobalKey<FormState>();
@@ -88,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         listener: (BuildContext context, LoginState state) {
           if (state.status == LoginStatus.success) {
+                 // var i =Token.id
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (_) => const NavigationMenu()));
             ScaffoldMessenger.of(context).showSnackBar(
@@ -136,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
         },
       ),
       keyboardType: TextInputType.visiblePassword,
-      obscureText: falseObscure,
+      obscureText: trueObscure,
       typeoffield: 'password',
       validator: (val) {
         if (val!.isEmpty || val.length <= 7) {

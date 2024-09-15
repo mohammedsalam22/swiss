@@ -8,6 +8,7 @@ import 'package:swis_warehouse/bloc/Profile/profile_cubit.dart';
 import 'package:swis_warehouse/bloc/Register/register_cubit.dart';
 import 'package:swis_warehouse/bloc/TransictionStatus/transiction_status_cubit.dart';
 import 'package:swis_warehouse/bloc/details_cubit/details_cubit.dart';
+import 'package:swis_warehouse/bloc/donorhome/donor_home_cubit.dart';
 import 'package:swis_warehouse/bloc/warrent_cubit/warrent_cubit.dart';
 import 'package:swis_warehouse/ui/screens/ForgetPassword/forget_password.dart';
 import 'package:swis_warehouse/ui/screens/LabelStatus/status_view.dart';
@@ -52,6 +53,9 @@ void main() {
         ),
         BlocProvider(
           create: (context) => WarrentCubit(),
+        ),
+        BlocProvider(
+          create: (context) => DonorHomeCubit(),
         ),
       ],
       child: MyApp(
