@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swis_warehouse/constant_stuff/routes_name.dart';
-import 'package:swis_warehouse/ui/public_widgets/ElevatedButton.dart';
-import 'package:swis_warehouse/ui/public_widgets/textFormField.dart';
 
 import '../../../bloc/Login/login_cubit.dart';
-import '../../../data/Api/login_api.dart';
-import '../HomePage/home_view.dart';
+import '../../shared_widgets/ElevatedButton.dart';
+import '../../shared_widgets/textFormField.dart';
 import '../HomePage/widgets/navigation_menu.dart';
+import '../LabelStatus/status_view.dart';
+import 'complete_profile.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,30 +32,26 @@ class _LoginPageState extends State<LoginPage> {
         key: _formKey,
         child: SingleChildScrollView(
           child: SafeArea(
-            child: _loginContainer(context),
+            child: Container(
+                color: Colors.white,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    Image.asset('assets/logo.png'),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                    ),
+                    _emailTextField(),
+                    _passwordTextField(),
+                    buildForgetPassword(context),
+                    buildButton(context)
+                  ],
+                ))
           ),
         ),
       ),
     );
-  }
-
-  Container _loginContainer(BuildContext context) {
-    return Container(
-        color: Colors.white,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Image.asset('assets/logo.png'),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.07,
-            ),
-            _emailTextField(),
-            _passwordTextField(),
-            buildForgetPassword(context),
-            buildButton(context)
-          ],
-        ));
   }
 
   Padding buildButton(BuildContext context) {
@@ -70,37 +66,68 @@ class _LoginPageState extends State<LoginPage> {
               RouteName: registeration,
               ButtonName: 'LogIn',
               function: () async {
-                print(emailController.text);
                 if (_formKey.currentState!.validate()) {
                   LoginCubit loginCubit = BlocProvider.of<LoginCubit>(context);
                   await loginCubit.postLogin(
                       emailController.text, passwordController.text);
-                  // Navigator.of(context).pushReplacement(
-                  //     MaterialPageRoute(builder: (_) => const NavigationMenu()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                         content:
                             Text('all category is required to add correctly')),
                   );
-                  //Navigator.of(context).pushReplacement(
-                  //  MaterialPageRoute(builder: (_) => const NavigationMenu()));
+
                 }
               });
         },
         listener: (BuildContext context, LoginState state) {
           if (state.status == LoginStatus.success) {
-                 // var i =Token.id
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const NavigationMenu()));
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('done Successfully')));
+            print('salam');
+            // Retrieve first_login and type from SharedPreferences
+            SharedPreferences.getInstance().then((prefs) {
+              int? firstLogin = prefs.getInt('first_login');
+              int? userType = prefs.getInt('type');
+
+              // Navigation logic based on first_login and type
+              if (firstLogin == 1) {
+                // First login = 1, navigate to Complete Profile Page
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => CompleteProfile())
+                );
+              } else if (firstLogin == 0) {
+                // First login = 0, navigate based on user type
+                switch (userType) {
+                  case 2:
+                  // Type 2, navigate to Navigation Menu (Home)
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => NavigationMenu())
+                    );
+                    break;
+                  case 3:
+                  // Type 3, navigate to Profile Page
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => NavigationMenu())
+                    );
+                    break;
+                }
+              } else {
+                // Unexpected first_login value, fallback to Login
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => LoginPage())
+                );
+              }
+
+              // Show success message
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Login Successful'))
+              );
+            });
           } else if (state.status == LoginStatus.error) {
             ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('not apidone Successfully')));
+                const SnackBar(content: Text('Login Error'))
+            );
           }
-        },
-      ),
+        },      ),
     );
   }
 

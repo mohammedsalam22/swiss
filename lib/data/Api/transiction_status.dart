@@ -23,7 +23,7 @@ class TransictionStatusApi {
         },
       );
       if (response.statusCode == 200) {
-        print('salalalalala');
+        print(response.body);
         return response.body;
       }
     } catch (error) {

@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swis_warehouse/bloc/logout/logout_cubit.dart';
 import 'package:swis_warehouse/constant_stuff/Token.dart';
-import 'package:swis_warehouse/ui/screens/ProfilePage/editprofile_view.dart';
 import 'package:swis_warehouse/ui/screens/ProfilePage/personal_info.dart';
 import 'dart:io';
-
 import '../../../bloc/Profile/profile_cubit.dart';
 import '../../../constant_stuff/routes_name.dart';
 
@@ -33,21 +32,17 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _nameController.text = name;
-  //   _emailController.text = email;
-  //   _phoneController.text = phone;
-  //   _addressController.text = address;
-  // }
+  @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      await BlocProvider.of<ProfileCubit>(context, listen: false)
-          .details(Token.value);
+      var token = preferences.getString('token');
+      if (token != null) {
+        await BlocProvider.of<ProfileCubit>(context, listen: false)
+            .details(Token.value);
+      }
     });
-    super.initState();
   }
 
   Future<void> _pickImage() async {
@@ -81,16 +76,12 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context, state) {
           if (state.status == ProfileStatus.loading) {
             return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.red,
-              ),
+              child: CircularProgressIndicator(color: Colors.red),
             );
           }
           if (BlocProvider.of<ProfileCubit>(context).detail == null) {
             return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.black,
-              ),
+              child: CircularProgressIndicator(color: Colors.black),
             );
           }
           details = BlocProvider.of<ProfileCubit>(context).detail['data'];
@@ -109,23 +100,23 @@ class _ProfilePageState extends State<ProfilePage> {
                     backgroundImage: _profileImage != null
                         ? FileImage(_profileImage!)
                         : const AssetImage('assets/personal photo.jpg')
-                            as ImageProvider,
+                    as ImageProvider,
                   ),
                 ),
                 const SizedBox(height: 16),
                 isEditing
                     ? TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: "Name",
-                          border: OutlineInputBorder(),
-                        ),
-                      )
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: "Name",
+                    border: OutlineInputBorder(),
+                  ),
+                )
                     : Text(
-                        name,
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
+                  name,
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
+                ),
                 accountContainer(),
                 Container(
                   color: Colors.grey.shade300,
@@ -133,6 +124,41 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: double.infinity,
                 ),
                 settingsContainer(context),
+                Divider(),
+                BlocProvider(
+                  create: (context) => LogoutCubit(),
+                  child: BlocConsumer<LogoutCubit, LogoutState>(
+                    listener: (context, state) {
+                      if (state == LogoutStatus.success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Logout successful')),
+                        );
+                        Navigator.pushReplacementNamed(context, '/login');
+                      } else if (state == LogoutStatus.error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error occurred')),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state == LogoutStatus.loading) {
+                        return CircularProgressIndicator(); // Show loading indicator
+                      }
+
+                      return ElevatedButton(
+                        onPressed: () async {
+                            await BlocProvider.of<LogoutCubit>(context, listen: false)
+                                .postLogout();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('No token found.')),
+                            );
+
+                        },
+                        child: Text('Logout'),
+                      );
+                    },
+                  ),
+                )
               ],
             ),
           );
@@ -198,9 +224,9 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: isEditing
               ? const Icon(Icons.done)
               : const Icon(
-                  Icons.edit,
-                  size: 25,
-                )),
+            Icons.edit,
+            size: 25,
+          )),
     );
   }
 
@@ -230,9 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text('Data & Storage'),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           const ListTile(
             leading: Icon(Icons.language),
             title: Text('Language'),
@@ -245,41 +269,35 @@ class _ProfilePageState extends State<ProfilePage> {
               side: BorderSide(color: Colors.grey, width: 1.0),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           InkWell(
             onTap: () {
               Navigator.pushNamed(context, aboutUs);
             },
             child: const ListTile(
               leading: Icon(Icons.info_outline),
-              title: Text('about us'),
+              title: Text('About Us'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 side: BorderSide(color: Colors.grey, width: 1.0),
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           InkWell(
             onTap: () {
               Navigator.pushNamed(context, terms);
             },
             child: const ListTile(
               leading: Icon(Icons.rule_sharp),
-              title: Text('terms&conditions '),
+              title: Text('Terms & Conditions'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 side: BorderSide(color: Colors.grey, width: 1.0),
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           const Divider(),
           InkWell(
             onTap: () {
@@ -287,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
             },
             child: const ListTile(
               leading: Icon(Icons.logout),
-              title: Text('logout'),
+              title: Text('Logout'),
             ),
           ),
         ],

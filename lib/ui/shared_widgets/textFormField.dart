@@ -31,21 +31,9 @@ class TextfromField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          EdgeInsets.only(left: left, right: right, bottom: bottom),
+      padding: EdgeInsets.only(left: left, right: right, bottom: bottom),
       child: TextFormField(
-        decoration: InputDecoration(
-            border: const UnderlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(0))),
-            labelText: labelText,
-            labelStyle: const TextStyle(
-              fontSize: 19,
-            ),
-            hintText: hintText,
-            hintStyle: const TextStyle(
-              fontSize: 18,
-            ),
-            suffixIcon: suffixIcon),
+        decoration: buildInputDecoration(),
         controller: controller,
         validator: validator,
         style: const TextStyle(
@@ -55,5 +43,20 @@ class TextfromField extends StatelessWidget {
         obscureText: obscureText,
       ),
     );
+  }
+
+  InputDecoration buildInputDecoration() {
+    return InputDecoration(
+          border: const UnderlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(0))),
+          labelText: labelText,
+          labelStyle: const TextStyle(
+            fontSize: 19,
+          ),
+          hintText: hintText,
+          hintStyle: const TextStyle(
+            fontSize: 18,
+          ),
+          suffixIcon: suffixIcon);
   }
 }

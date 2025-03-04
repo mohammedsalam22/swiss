@@ -10,18 +10,14 @@ const storage = FlutterSecureStorage();
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterState.initial());
 
-  Future postRegister(int phone, String name, String type) async {
+  Future postRegister(String name,String phone,String password,String password_confirmation) async {
     emit(state.copyWith(status: RegisterStatus.loading));
     try {
-      var registerModel = await RegisterRepo().register(phone, name, type);
-      await storage.write(key: 'token', value: registerModel['token']);
-      await storage.write(key: 'id', value: registerModel['id']);
+      var registerModel = await RegisterRepo().register(name, phone,password, password_confirmation);
+
       emit(state.copyWith(
           status: RegisterStatus.success,
-          registerModel: RegisterModel(
-              phone: registerModel["user"]['phone'],
-              name: registerModel["user"]['name'],
-              type: registerModel["token"])));
+          ));
     } catch (error) {
       emit(state.copyWith(status: RegisterStatus.error));
     }

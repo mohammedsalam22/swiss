@@ -22,7 +22,7 @@ class CircularButton extends StatelessWidget {
       children: [
         Container(
           width: 75.0,
-          height: 75.0,
+          height:75.0,
           decoration: BoxDecoration(
             border: Border.all(color: bordercolor, width: 1),
             shape: BoxShape.circle,

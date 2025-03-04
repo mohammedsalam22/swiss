@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swis_warehouse/constant_stuff/url.dart';
 
-class SendWarrentApi {
+class CreateTransictionApi {
   static Future sendWarrent(Map data) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     try {

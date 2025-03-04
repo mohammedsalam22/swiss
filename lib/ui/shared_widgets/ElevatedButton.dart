@@ -14,12 +14,12 @@ class Elevatedbutton extends StatelessWidget {
       onPressed:function,
       style: ButtonStyle(
         backgroundColor:
-            MaterialStateProperty.all(const Color.fromARGB(255, 244, 0, 0)),
-        minimumSize: MaterialStateProperty.all(const Size(250, 55)),
-        padding: MaterialStateProperty.all(
+            WidgetStateProperty.all(const Color.fromARGB(255, 244, 0, 0)),
+        minimumSize: WidgetStateProperty.all(const Size(250, 55)),
+        padding: WidgetStateProperty.all(
           const EdgeInsets.only(top: 2, left: 70, right: 70, bottom: 1),
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
                 10), // Set the border radius to 0 for rectangle

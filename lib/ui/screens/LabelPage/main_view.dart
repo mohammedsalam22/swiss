@@ -26,10 +26,11 @@ class _diaryState extends State<diary> {
   }
 
   Expanded _tabBarViewer() {
-    return const Expanded(
+    return Expanded(
       child: TabBarView(children: [
-        RequestWarrant(),
-        QrPage(),
+        const CreateTransiction(),
+        QRScanner()
+        //QrPage(),
       ]),
     );
   }

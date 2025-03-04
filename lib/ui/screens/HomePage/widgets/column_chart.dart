@@ -35,9 +35,9 @@ class _ColumnChartState extends State<ColumnChart> {
       plotAreaBorderColor: Colors.black54,
       borderColor: Colors.black54,
       primaryXAxis: const CategoryAxis(
-        maximum: 8,
+        maximum: 15,
       ),
-      primaryYAxis: const NumericAxis(minimum: 0, maximum: 1000, interval: 50),
+      primaryYAxis: const NumericAxis(minimum: 0, maximum: 1000, interval: 100),
       tooltipBehavior: _tooltip,
       series: _columnseries(),
     );
@@ -53,11 +53,9 @@ class _ColumnChartState extends State<ColumnChart> {
           yValueMapper: (_ChartData data, _) => data.y,
           name: 'material',
           gradient: LinearGradient(colors: [
-            Colors.red,
-            Colors.red.shade300,
-            Colors.red.shade300,
-            Colors.red.shade300,
-            Colors.red.shade200,
+            Colors.blue.shade300,
+            Colors.blue.shade900,
+
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           color: Colors.black,
           borderColor: Colors.black54,

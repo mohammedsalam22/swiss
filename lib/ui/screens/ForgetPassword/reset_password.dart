@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:swis_warehouse/ui/screens/HomePage/home_view.dart';
 
+import '../HomePage/view.dart';
+
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
@@ -112,7 +114,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     // Implement verification logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomeView()),
+                      MaterialPageRoute(builder: (context) =>  WarehouseView()),
                     );
                   }
                 : null,

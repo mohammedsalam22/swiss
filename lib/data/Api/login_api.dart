@@ -10,8 +10,6 @@ class LoginApi {
 
   static Future loginAuth(String email, String password) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    SharedPreferences pref = await SharedPreferences.getInstance();
-
     try {
       var response = await http.post(
         Uri.parse('$url/api/login'),
@@ -27,16 +25,18 @@ class LoginApi {
       print(response.body);
       if (response.statusCode == 200) {
 
-        print('siiiii');
+        print('siiiiii');
         var j = jsonDecode(response.body);
         Token.token = j["data"]["access_token"];
         Token.value = j["data"]["id"];
         preferences.setString('token', j["data"]["access_token"]);
         preferences.setInt('id', j["data"]["id"]);
-        pref.setInt('type', j["data"]["type"]);
+        preferences.setInt('first_login', j["data"]["first_login"]);
+        preferences.setInt('type', j["data"]["type"]);
         message = j["message"];
         return response.body;
       } else {
+        print('sisisisis');
         if (response.body.isEmpty) {
           throw Exception('empty');
         }

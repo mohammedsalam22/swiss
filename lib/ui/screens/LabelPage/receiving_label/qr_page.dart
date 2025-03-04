@@ -1,123 +1,97 @@
+// lib/qr_scanner.dart
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:swis_warehouse/ui/screens/LabelPage/receiving_label/reading_qr.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class QrPage extends StatefulWidget {
-  const QrPage({super.key});
-
+class QRScanner extends StatefulWidget {
   @override
-  _QrPageState createState() => _QrPageState();
+  _QRScannerState createState() => _QRScannerState();
 }
 
-class _QrPageState extends State<QrPage> {
-  final TextEditingController _controller = TextEditingController();
-  String _qrData = '';
-  String _scanResult = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                labelText: 'Enter data to generate QR code',
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _qrData = _controller.text;
-                });
-              },
-              child: const Text('Generate QR Code'),
-            ),
-            const SizedBox(height: 20),
-            if (_qrData.isNotEmpty)
-              Center(
-                child: QrImageView(
-                  data: _qrData,
-                  version: QrVersions.auto,
-                  size: 200.0,
-                ),
-              ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => QRViewExample(
-                      onQRViewCreated: _onQRViewCreated,
-                    ),
-                  ),
-                );
-              },
-              child: const Text('Scan QR Code'),
-            ),
-            if (_scanResult.isNotEmpty)
-              Text(
-                'Scan Result: $_scanResult',
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        _scanResult = scanData.code!;
-      });
-      controller.dispose(); // Stop scanning after getting the result
-      Navigator.pop(context); // Return to the main screen
-    });
-  }
-}
-
-class QRViewExample extends StatefulWidget {
-  final void Function(QRViewController) onQRViewCreated;
-
-  QRViewExample({required this.onQRViewCreated});
-
-  @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
-}
-
-class _QRViewExampleState extends State<QRViewExample> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  late QRViewController controller;
+class _QRScannerState extends State<QRScanner> {
+  String result = "Scan a QR code";
+  Map<String, dynamic>? transactionData;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scan QR Code'),
+        title: Text('QR Scanner'),
+        centerTitle: true,
       ),
-      body: QRView(
-        key: qrKey,
-        onQRViewCreated: _onQRViewCreated,
+      body: Column(
+        children: [
+          Expanded(
+            child: MobileScanner(
+              onDetect: (BarcodeCapture barcodeCapture) {
+                final List<Barcode> barcodes = barcodeCapture.barcodes;
+                if (barcodes.isNotEmpty) {
+                  final String? scannedValue = barcodes.first.rawValue;
+                  if (scannedValue != null) {
+                    // Assuming the scanned value is the ID
+                    fetchTransactionData(scannedValue);
+                  }
+                }
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              result,
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          if (transactionData != null) ...[
+            // Display transaction details if available
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    title: Text("Transaction ID: ${transactionData!['id']}"),
+                  ),
+                  ListTile(
+                    title: Text("Status: ${transactionData!['status']}"),
+                  ),
+                  ListTile(
+                    title: Text("Date: ${transactionData!['date']}"),
+                  ),
+                  ListTile(
+                    title: Text("Transaction Type: ${transactionData!['transaction_type']}"),
+                  ),
+                  ListTile(
+                    title: Text("Waybill Number: ${transactionData!['waybill_num']}"),
+                  ),
+                  // Add more fields as needed
+                ],
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    widget.onQRViewCreated(controller);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+  Future<void> fetchTransactionData(String id) async {
+    final url = 'https://swis.mouhannadabdalrhem.online/api/showTransactionForKeeper/$id';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        setState(() {
+          transactionData = jsonResponse['data']; // Store the transaction data
+          result = "Transaction fetched successfully!";
+        });
+      } else {
+        setState(() {
+          result = "Failed to fetch transaction data.";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        result = "Error: $e";
+      });
+    }
   }
 }

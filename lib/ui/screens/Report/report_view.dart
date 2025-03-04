@@ -1,14 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart'; // Use share_plus instead of share
+import 'package:share_plus/share_plus.dart';
+import 'package:open_file/open_file.dart'; // Import the open_file package
 import 'dart:io';
-
 import 'package:swis_warehouse/bloc/Inventory/inventory_cubit.dart';
 
 class WarehouseReportPage extends StatefulWidget {
@@ -45,32 +44,36 @@ class _WarehouseReportPageState extends State<WarehouseReportPage> {
       ),
     );
 
-    final output = await getTemporaryDirectory();
-    final file = File("${output.path}/warehouse_report.pdf");
+    // Get the directory to save the PDF file
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = "${directory.path}/warehouse_report.pdf";
+    final file = File(filePath);
+
+    // Write the PDF file to the device
     await file.writeAsBytes(await pdf.save());
 
-    Share.shareXFiles([XFile(file.path)],
-        text: 'Warehouse Report PDF'); // Use shareXFiles
+    // Notify the user that the file has been saved
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('PDF saved to $filePath')),
+    );
+
+    // Open the PDF file
+    final result = await OpenFile.open(filePath);
+    if (result.message != 'Success') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open the file: ${result.message}')),
+      );
+    }
   }
 
   Future<void> _generateExcel(String base64String) async {
     try {
-      // Clean and validate base64 string
       base64String = base64String.trim();
+      List<int> bytes = base64.decode(base64String.replaceAll(RegExp(r'\s+'), ''));
 
-      // Decode base64 string to bytes
-      List<int> bytes;
-      try {
-        bytes = base64.decode(base64String.replaceAll(RegExp(r'\s+'), ''));
-      } catch (e) {
-        throw FormatException('Error decoding base64 string: $e');
-      }
-
-      // Get the directory to save the file
       Directory directory = await getApplicationDocumentsDirectory();
       String path = '${directory.path}/decoded_file.xlsx';
 
-      // Save the bytes to an Excel file
       File file = File(path);
       await file.writeAsBytes(bytes);
 
@@ -87,17 +90,25 @@ class _WarehouseReportPageState extends State<WarehouseReportPage> {
           print(row);
         }
       }
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Excel file generated successfully!')),
+      );
     } catch (e) {
       print('Error processing Excel file: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error generating Excel file.')),
+      );
     }
   }
 
+  @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await BlocProvider.of<InventoryCubit>(context, listen: false)
-          .getAllFile();
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await BlocProvider.of<InventoryCubit>(context, listen: false).getAllFile();
+    });
   }
 
   @override
@@ -109,25 +120,27 @@ class _WarehouseReportPageState extends State<WarehouseReportPage> {
       body: BlocBuilder<InventoryCubit, InventoryState>(
         builder: (context, state) {
           if (state.status == InventoryStatus.loading) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
           if (BlocProvider.of<InventoryCubit>(context).files == null) {
-            return CircularProgressIndicator();
+            return Center(child: Text('No files available.'));
           }
-          var hh = BlocProvider.of<InventoryCubit>(context).files;
+          var files = BlocProvider.of<InventoryCubit>(context).files;
           return ListView.builder(
-            itemCount: hh.length,
+            itemCount: files.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(hh[index]['name']),
-                subtitle: Text(hh[index]['path']),
-                onTap: () async {
-                  var hh5 = BlocProvider.of<InventoryCubit>(context) ;
-                  await hh5.download(hh[index]['path']);
-                  if (state.status == InventoryStatus.success) {
-                    print('sssss') ;
-                  }
-                },
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: ListTile(
+                  title: Text(files[index]['name']),
+                  subtitle: Text(files[index]['path']),
+                  onTap: () async {
+                    await BlocProvider.of<InventoryCubit>(context).download(files[index]['path']);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Downloading ${files[index]['name']}...')),
+                    );
+                  },
+                ),
               );
             },
           );
@@ -143,7 +156,10 @@ class _WarehouseReportPageState extends State<WarehouseReportPage> {
           ),
           SizedBox(height: 10),
           FloatingActionButton.extended(
-            onPressed: () {},
+            onPressed: () {
+              // Implement Excel generation logic here
+              // _generateExcel(base64String); // Pass a valid base64 string
+            },
             label: Text('Generate Excel'),
             icon: Icon(Icons.table_chart),
           ),
